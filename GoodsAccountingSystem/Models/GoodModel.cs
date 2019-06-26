@@ -9,6 +9,7 @@ namespace GoodsAccountingSystem.Models
 {
     public class GoodModel
     {
+        public int Id { get; set; }
         [Required]
         public DateTime CreationDate { get; set; }
         [Required]
