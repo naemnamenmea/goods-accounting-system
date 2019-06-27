@@ -43,6 +43,12 @@ namespace GoodsAccountingSystem.Controllers
             return View();
         }
 
+        public IActionResult GoodsList()
+        {
+
+            return View(_context.Goods.ToList());
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
