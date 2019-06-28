@@ -4,28 +4,31 @@
     ViewData["Title"] = "GoodsList";
 }
 
-<h2>GoodsList</h2>
+<h2>Список товаров</h2>
+<hr />
+@DateTime.Now.ToLongTimeString()
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
+                Дата создания
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Название товара
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Цена
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Описание
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Attachment)
+                Файл приложение
             </th>
             <th></th>
         </tr>
@@ -49,9 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Attachment)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">&times;</button>
             </td>
         </tr>
 }
