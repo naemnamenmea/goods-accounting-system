@@ -1,4 +1,6 @@
-﻿@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
+﻿@using System.Reflection;
+@using System.ComponentModel;
+@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
 
 @{
     ViewData["Title"] = "GoodsList";
@@ -6,55 +8,144 @@
 
 <h2>Список товаров</h2>
 <hr />
-@DateTime.Now.ToLongTimeString()
+
+<div class="d-flex flex-wrap justify-content-between">
+    <div class="">@DateTime.Now.ToLongTimeString()</div>
+    @*  *@
+</div>
 
 @*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+        <a asp-action="Create">Create New</a>
+    </p>*@
 
-<table class="table">
+<table class="table table-bordered table-hover table-edit">
     <thead>
         <tr>
             <th>
-                Дата создания
+                @Html.DisplayNameFor(model => model.CreationDate)
             </th>
             <th>
-                Название товара
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Цена
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                Описание
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                Файл приложение
+                @Html.DisplayNameFor(model => model.InStock)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attachment)
+            </th>
+            <th>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addGoodModal" data-whatever="@@someTEXT"><i class="fas fa-plus"></i></button>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Attachment)
-            </td>
-            <td>
-                <button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">&times;</button>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr onclick="alert('Редактировать');">
+                @*@{var properties = item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Static);
+                            <td>@properties</td>
+                        foreach (var property in properties)
+                        {
+                            var attribute = (DisplayNameAttribute)property.GetCustomAttribute(typeof(DisplayNameAttribute), true);
+                            if (attribute != null)
+                            {
+                                <td>@attribute.DisplayName</td>
+                            }
+                            else
+                            {
+                                <td>@item.Name</td>
+                            }
+                        }
+                    }*@
+                @foreach (var property in ViewData.ModelMetadata.Properties)
+                {
+                    <td>
+                        @(property.DisplayName ?? property.PropertyName)
+                    </td>
+                }
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InStock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Attachment)
+                    </td>*@
+                <td>
+                    <button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div class="modal fade" id="addGoodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Редактирование записи</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="CreationDate" class="control-label"></label>
+                            <input asp-for="CreationDate" class="form-control" />
+                            <span asp-validation-for="CreationDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Price" class="control-label"></label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="InStock" class="control-label"></label>
+                            <input asp-for="InStock" class="form-control" />
+                            <span asp-validation-for="InStock" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Attachment" class="control-label"></label>
+                            <input asp-for="Attachment" class="form-control" />
+                            <span asp-validation-for="Attachment" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </form>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">сохранить</button>
+                <button type="button" class="btn btn-light border-dark" data-dismiss="modal">отмена</button>
+            </div>
+        </div>
+    </div>
+</div>

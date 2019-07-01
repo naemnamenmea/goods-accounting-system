@@ -11,7 +11,7 @@ namespace GoodsAccountingSystem.Controllers
     public class HomeController : Controller
     {
         DataContext _context;
-
+        
         public HomeController(
             DataContext context
             )

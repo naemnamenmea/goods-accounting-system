@@ -32,5 +32,7 @@ namespace GoodsAccountingSystem
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<GoodsAccountingSystem.Models.UserModel> UserModel { get; set; }
     }
 }
