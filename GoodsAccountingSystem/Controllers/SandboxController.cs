@@ -12,9 +12,9 @@ namespace GoodsAccountingSystem.Controllers
 {
     public class SandboxController : Controller
     {
-        private readonly DataContext _context;
+        private readonly AppDbContext _context;
 
-        public SandboxController(DataContext context)
+        public SandboxController(AppDbContext context)
         {
             _context = context;
         }

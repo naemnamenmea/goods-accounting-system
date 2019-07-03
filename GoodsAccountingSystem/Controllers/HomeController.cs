@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using GoodsAccountingSystem;
 using GoodsAccountingSystem.Models;
+using System.Diagnostics;
 
 namespace GoodsAccountingSystem.Controllers
 {
     public class HomeController : Controller
     {
-        DataContext _context;
-        
-        public HomeController(
-            DataContext context
-            )
-        {
-            _context = context;
-        }
-
         public IActionResult Index()
         {
-            return View(_context.Goods.ToList());
+            return View();
         }
 
         public IActionResult About()
@@ -41,12 +35,6 @@ namespace GoodsAccountingSystem.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        public IActionResult GoodsList()
-        {
-
-            return View(_context.Goods.ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,24 +1,22 @@
 ﻿using GoodsAccountingSystem.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace GoodsAccountingSystem
 {
-    public class DataContext : IdentityDbContext<UserModel, IdentityRole<int>, int>
+    public class AppDbContext : 
+        IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
     {
         public DbSet<GoodModel> Goods { get; set; }
+        public DbSet<AppUser> UserModel { get; set; }
 
-        public DataContext(DbContextOptions<DataContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         { }
 
-        public DataContext(string connectionString)
-            : base(GetOptions(connectionString))
+        public AppDbContext(string connectionString)
+            : base(connectionString)
         {
 
         }
@@ -28,11 +26,9 @@ namespace GoodsAccountingSystem
             return MySqlDbContextOptionsExtensions.UseMySql(new DbContextOptionsBuilder(), connectionString).Options;
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(DbModelBuilder builder)
         {
             base.OnModelCreating(builder);
         }
-
-        public DbSet<GoodsAccountingSystem.Models.UserModel> UserModel { get; set; }
     }
 }

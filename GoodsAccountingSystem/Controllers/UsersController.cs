@@ -7,147 +7,99 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoodsAccountingSystem;
 using GoodsAccountingSystem.Models;
+using Microsoft.AspNetCore.Identity;
+using GoodsAccountingSystem.ViewModels;
+using AutoMapper;
 
 namespace GoodsAccountingSystem.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly DataContext _context;
+        UserManager<AppUser> _userManager;
+        IMapper _mapper;
 
-        public UsersController(DataContext context)
+        public UsersController(
+            UserManager<AppUser> userManager,
+            IMapper mapper)
         {
-            _context = context;
+            _userManager = userManager;
+            _mapper = mapper;
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.UserModel.ToListAsync());
-        }
+        public IActionResult Index() => View(_userManager.Users.ToList());
 
-        // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        public IActionResult Create() => View();
 
-            var userModel = await _context.UserModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(userModel);
-        }
-
-        // GET: Users/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,SecondName,MiddleName,RegisterDate,BirthDate,Password,Activity,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] UserModel userModel)
+        public async Task<IActionResult> Create(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userModel);
-        }
-
-        // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userModel = await _context.UserModel.FindAsync(id);
-            if (userModel == null)
-            {
-                return NotFound();
-            }
-            return View(userModel);
-        }
-
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName,SecondName,MiddleName,RegisterDate,BirthDate,Password,Activity,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] UserModel userModel)
-        {
-            if (id != userModel.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                var UserModel = _mapper.Map<AppUser>(model);
+                var result = await _userManager.CreateAsync(UserModel, model.Password);
+                if (result.Succeeded)
                 {
-                    _context.Update(userModel);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!UserModelExists(userModel.Id))
+                    foreach (var error in result.Errors)
                     {
-                        return NotFound();
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            AppUser UserModel = await _userManager.FindByIdAsync(id);
+            if (UserModel == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<EditUserViewModel>(UserModel);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser UserModel = await _userManager.FindByIdAsync(model.Id);
+                if (UserModel != null)
+                {
+                    _mapper.Map(model, UserModel);
+                    UserModel.UserName = model.Email;
+
+                    var result = await _userManager.UpdateAsync(UserModel);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        throw;
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(userModel);
+            return View(model);
         }
 
-        // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
         {
-            if (id == null)
+            AppUser UserModel = await _userManager.FindByIdAsync(id);
+            if (UserModel != null)
             {
-                return NotFound();
+                IdentityResult result = await _userManager.DeleteAsync(UserModel);
             }
-
-            var userModel = await _context.UserModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(userModel);
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userModel = await _context.UserModel.FindAsync(id);
-            _context.UserModel.Remove(userModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserModelExists(int id)
-        {
-            return _context.UserModel.Any(e => e.Id == id);
+            return RedirectToAction("Index");
         }
     }
 }

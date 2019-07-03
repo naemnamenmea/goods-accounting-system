@@ -7,19 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoodsAccountingSystem;
 using GoodsAccountingSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoodsAccountingSystem.Controllers
 {
     public class GoodsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly AppDbContext _context;
 
-        public GoodsController(DataContext context)
+        public GoodsController(AppDbContext context)
         {
             _context = context;
         }
 
         // GET: Goods
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Goods.ToListAsync());
@@ -60,9 +62,9 @@ namespace GoodsAccountingSystem.Controllers
             {
                 _context.Add(goodModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Ok();                
             }
-            return View(goodModel);
+            return BadRequest();
         }
 
         // GET: Goods/Edit/5

@@ -16,6 +16,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script defer src="~/lib/font-awesome/js/all.js"></script>
 </head>
 <body>
@@ -29,15 +30,28 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="GoodsList" class="nav-link">Список товаров</a></li>
+                <li class="nav-item"><a asp-area="" asp-controller="Goods" asp-action="Index" class="nav-link">Список товаров</a></li>
                 <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">О нас</a></li>
                 <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Контакты</a></li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Аккаунт</a></li>
-                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Панель управления</a></li>
-                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Выйти</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item"><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link">Аккаунт</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="Admin" asp-action="Index" class="nav-link">Панель управления</a></li>
+                }
+                else
+                {
+                    <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link">Вход</a></li>
+                    <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">Регистрация</a></li>
+                }
             </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form method="post" asp-area="" asp-controller="Account" asp-action="LogOff">
+                    <input type="submit" value="Выйти" class="nav-link" />
+                </form>
+            }
         </div>
     </nav>
 
@@ -52,7 +66,6 @@
     </div>
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         @*<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>*@
         <script src="~/js/site.js" asp-append-version="true"></script>

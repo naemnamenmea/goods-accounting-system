@@ -1,59 +1,125 @@
-﻿@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
+﻿@using System.Reflection;
+@using System.ComponentModel.DataAnnotations;
+@using System.ComponentModel;
+@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "GoodsList";
 }
 
-<h2>Index</h2>
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h2>Список товаров</h2>
+<hr />
+
+<div class="d-flex flex-wrap justify-content-between">
+    <div class="">@DateTime.Now.ToLongTimeString()</div>
+    @*  *@
+</div>
+
+<table class="table table-bordered table-hover table-edit">
     <thead>
         <tr>
+            @{
+                var info = TypeDescriptor.GetProperties(typeof(GoodModel))
+                            .Cast<PropertyDescriptor>()
+                            .Select(p => p.DisplayName).ToList();
+                foreach (var prop in info)
+                {
+                    <td>@prop</td>
+                }
+            }
+            @*<th>
+                    @Html.DisplayNameFor(model => model.CreationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InStock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Attachment)
+                </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
+                @*<a asp-action="Create">Create New</a>*@
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addGoodModal" data-whatever="@@someTEXT"><i class="fas fa-plus"></i></button>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attachment)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*@{var properties = item.GetType().GetProperties().ToList();
+                        foreach (var property in properties)
+                        {
+                            var attribute = (DisplayNameAttribute)property.GetCustomAttribute(typeof(DisplayNameAttribute), true);
+                            <td>@attribute.</td>
+                            @<td>@property.</td>
+                            @*var attribute = (DisplayNameAttribute)property.GetCustomAttribute(typeof(DisplayNameAttribute), true);
+                            <td>@attribute.DisplayName ?? @item.Name</td>
+                        }
+                    }*@
+                @*@foreach (var property in ViewData.ModelMetadata.Properties)
+                    {
+                        <div class="editor-line">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @Html.Editor(property.PropertyName)
+                        </div>
+                    }*@
+                @*@foreach (var prop in item.GetType().GetProperties())
+                    {
+                        <td>@prop.GetValue(item, null)</td>
+                    }*@
+                @*@foreach (var prop in item.GetType().GetProperties())
+                    {
+                        <td>@prop.GetValue(item, null)</td>
+                        @Html.DisplayFor(modelItem => prop.GetValue(item, null))
+                    }*@
+
+                @*<td>
+                    <td ondblclick="alert('Редактировать');">@prop.GetValue(item, null)</td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>*@
+                <td>
                 @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Attachment)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attachment)
+                </td>
+                <td>
+                    <button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+        }
     </tbody>
+    @{
+        //var grid = new WebGrid(source: ViewBag.list, canPage: true, rowsPerPage: 1);
+        //grid.Pager(WebGridPagerModes.NextPrevious);
+    }
 </table>
+
+<partial name="Create" model="null" />
+<partial name="Delete" model="null" />
+<partial name="Edit" model="null" />
