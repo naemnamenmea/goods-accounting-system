@@ -5,21 +5,25 @@ using GoodsAccountingSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using GoodsAccountingSystem.Helpers;
 
 namespace GoodsAccountingSystem.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private IMapper _mapper;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly AppUserManager _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+
+        public AccountController()
+            : this(new AppUserManager(new AppUserStore(new AppDbContext())))
+        { }
 
         public AccountController
             (
-            UserManager<AppUser> userManager,
+            AppUserManager userManager,
             SignInManager<AppUser> signInManager,
             IMapper mapper)
-            : this(new AppUserManager(new AppUserStore(new AppDbContext())))
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -36,6 +40,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -60,6 +65,17 @@ namespace GoodsAccountingSystem.Controllers
                 }
             }
             return View(model);
+        }
+
+        private async Task SignInAsync(AppUser user, bool isPersistent)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            ClaimsIdentity identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+            // Extend identity claims
+            identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+
+            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
 
         [HttpGet]
