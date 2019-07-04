@@ -47,22 +47,20 @@
     </div>
 </div>
 
-@{
-    <script>
-        function SubCreateGoodForm() {
-            $.ajax({
-                url: '/Goods/Create/',
-                type: 'post',
-                data: $('#createGoodForm').serialize(),
-                success: function (response) {
-                    console.log("create good: success");
-                    console.log(response);
-                },
-                error: function () {
-                    console.log("create good: fail");
-                }
-            });
-            $('#addGoodModal').modal('hide');
-        }
-    </script>
-}
+<script>
+    function SubCreateGoodForm() {
+        $.ajax({
+            url: '/Goods/Create/',
+            type: 'post',
+            data: $('#createGoodForm').serialize(),
+            success: function (response) {
+                console.log("create good: success");
+                @{ Html. }
+            },
+            error: function () {
+                console.log("create good: fail");
+            }
+        });
+        $('#addGoodModal').modal('hide');
+    }
+</script>

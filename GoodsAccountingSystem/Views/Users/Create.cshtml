@@ -1,4 +1,4 @@
-﻿@model GoodsAccountingSystem.Models.AppUser
+﻿@*@model GoodsAccountingSystem.ViewModels.CreateUserViewModel
 
 @{
     ViewBag.Title = "Добавление пользователя";
@@ -138,3 +138,24 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+
+
+@model CustomIdentityApp.ViewModels.CreateUserViewModel
+@{
+    ViewBag.Title = "Добавление пользователя";
+}
+<form asp-action="Create" asp-controller="Users">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input type="text" asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label">Пароль</label>
+        <input type="text" asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-default" />
+    </div>
+</form>*@

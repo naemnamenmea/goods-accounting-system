@@ -13,21 +13,19 @@ namespace GoodsAccountingSystem.Controllers
 {
     public class GoodsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly DataContext _context;
 
-        public GoodsController(AppDbContext context)
+        public GoodsController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Goods
         [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Goods.ToListAsync());
         }
 
-        // GET: Goods/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,15 +43,11 @@ namespace GoodsAccountingSystem.Controllers
             return View(goodModel);
         }
 
-        // GET: Goods/Create
         public IActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
-        // POST: Goods/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CreationDate,Name,Price,Description,Attachment")] GoodModel goodModel)
@@ -67,7 +61,6 @@ namespace GoodsAccountingSystem.Controllers
             return BadRequest();
         }
 
-        // GET: Goods/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,9 +76,6 @@ namespace GoodsAccountingSystem.Controllers
             return View(goodModel);
         }
 
-        // POST: Goods/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CreationDate,Name,Price,Description,Attachment")] GoodModel goodModel)
@@ -118,7 +108,6 @@ namespace GoodsAccountingSystem.Controllers
             return View(goodModel);
         }
 
-        // GET: Goods/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,7 +125,6 @@ namespace GoodsAccountingSystem.Controllers
             return View(goodModel);
         }
 
-        // POST: Goods/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

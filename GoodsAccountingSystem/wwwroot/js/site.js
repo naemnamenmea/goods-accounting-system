@@ -1,4 +1,8 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const GOODS = 'Goods';
+const ACCOUNT = 'Account';
+const USERS = 'Users';
+const ADMIN = 'Admin';
 
-// Write your JavaScript code.
+const CREATE = 'Create';
+const DELETE = 'Delete';
+const EDIT = 'Edit';

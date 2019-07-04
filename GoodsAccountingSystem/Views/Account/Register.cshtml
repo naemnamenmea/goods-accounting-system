@@ -35,21 +35,9 @@
         <span asp-validation-for="MiddleName"></span>
     </div>
     <div>
-        <label asp-for="RegisterDate"></label><br />
-        <input type="date" asp-for="RegisterDate" />
-        <span asp-validation-for="RegisterDate"></span>
-    </div>
-    <div>
         <label asp-for="BirthDate"></label><br />
         <input type="date" asp-for="BirthDate" />
         <span asp-validation-for="BirthDate"></span>
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input asp-for="Activity" /> @Html.DisplayNameFor(model => model.Activity)
-            </label>
-        </div>
     </div>
     <div>
         <input type="submit" value="Регистрация" />

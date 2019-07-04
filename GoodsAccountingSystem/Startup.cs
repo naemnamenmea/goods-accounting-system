@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using GoodsAccountingSystem.Models;
-using static GoodsAccountingSystem.Models.AppUser;
+using static GoodsAccountingSystem.Models.UserModel;
 
 namespace GoodsAccountingSystem
 {
@@ -39,8 +39,8 @@ namespace GoodsAccountingSystem
             });
 
             services.ConfigureMySqlContext(Configuration);
-            services.AddIdentity<AppUser, AppRole>()
-                .AddUserStore<AppUserStore>()
+            services.AddIdentity<UserModel, IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

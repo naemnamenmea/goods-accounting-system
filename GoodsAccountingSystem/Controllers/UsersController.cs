@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GoodsAccountingSystem;
 using GoodsAccountingSystem.Models;
-using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity;
 using GoodsAccountingSystem.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 
 namespace GoodsAccountingSystem.Controllers
 {
     public class UsersController : Controller
     {
-        UserManager<AppUser> _userManager;
+        UserManager<UserModel> _userManager;
         IMapper _mapper;
 
         public UsersController(
-            UserManager<AppUser> userManager,
+            UserManager<UserModel> userManager,
             IMapper mapper)
         {
             _userManager = userManager;
@@ -35,7 +36,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var UserModel = _mapper.Map<AppUser>(model);
+                var UserModel = _mapper.Map<UserModel>(model);
                 var result = await _userManager.CreateAsync(UserModel, model.Password);
                 if (result.Succeeded)
                 {
@@ -54,7 +55,7 @@ namespace GoodsAccountingSystem.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            AppUser UserModel = await _userManager.FindByIdAsync(id);
+            UserModel UserModel = await _userManager.FindByIdAsync(id + "");
             if (UserModel == null)
             {
                 return NotFound();
@@ -68,7 +69,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser UserModel = await _userManager.FindByIdAsync(model.Id);
+                UserModel UserModel = await _userManager.FindByIdAsync(model.Id + "");
                 if (UserModel != null)
                 {
                     _mapper.Map(model, UserModel);
@@ -94,7 +95,7 @@ namespace GoodsAccountingSystem.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
-            AppUser UserModel = await _userManager.FindByIdAsync(id);
+            UserModel UserModel = await _userManager.FindByIdAsync(id);
             if (UserModel != null)
             {
                 IdentityResult result = await _userManager.DeleteAsync(UserModel);

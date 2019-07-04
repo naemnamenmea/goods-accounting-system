@@ -7,10 +7,6 @@
     ViewData["Title"] = "GoodsList";
 }
 
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
-
 <h2>Список товаров</h2>
 <hr />
 
@@ -22,76 +18,35 @@
 <table class="table table-bordered table-hover table-edit">
     <thead>
         <tr>
-            @{
-                var info = TypeDescriptor.GetProperties(typeof(GoodModel))
-                            .Cast<PropertyDescriptor>()
-                            .Select(p => p.DisplayName).ToList();
-                foreach (var prop in info)
-                {
-                    <td>@prop</td>
-                }
-            }
-            @*<th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.InStock)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Attachment)
-                </th>*@
             <th>
-                @*<a asp-action="Create">Create New</a>*@
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addGoodModal" data-whatever="@@someTEXT"><i class="fas fa-plus"></i></button>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attachment)
+            </th>
+            <th>
+                <button type="button" class="btn btn-success" onclick="GoodsAPI.formCreate()"><i class="fas fa-plus"></i></button>
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                @*@{var properties = item.GetType().GetProperties().ToList();
-                        foreach (var property in properties)
-                        {
-                            var attribute = (DisplayNameAttribute)property.GetCustomAttribute(typeof(DisplayNameAttribute), true);
-                            <td>@attribute.</td>
-                            @<td>@property.</td>
-                            @*var attribute = (DisplayNameAttribute)property.GetCustomAttribute(typeof(DisplayNameAttribute), true);
-                            <td>@attribute.DisplayName ?? @item.Name</td>
-                        }
-                    }*@
-                @*@foreach (var property in ViewData.ModelMetadata.Properties)
-                    {
-                        <div class="editor-line">
-                            <label>@(property.DisplayName ?? property.PropertyName)</label>
-                            @Html.Editor(property.PropertyName)
-                        </div>
-                    }*@
-                @*@foreach (var prop in item.GetType().GetProperties())
-                    {
-                        <td>@prop.GetValue(item, null)</td>
-                    }*@
-                @*@foreach (var prop in item.GetType().GetProperties())
-                    {
-                        <td>@prop.GetValue(item, null)</td>
-                        @Html.DisplayFor(modelItem => prop.GetValue(item, null))
-                    }*@
-
-                @*<td>
-                    <td ondblclick="alert('Редактировать');">@prop.GetValue(item, null)</td>
-                        @Html.DisplayFor(modelItem => item.CreationDate)
-                    </td>*@
+            <tr data-toggle="modal" data-target="#editGoodModal">
                 <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
+                    @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -103,13 +58,20 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InStock)
+                    @if (item.InStock)
+                    {
+                        @: Да
+                    }
+                    else
+                    {
+                        @: Нет
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Attachment)
                 </td>
-                <td>
-                    <button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                <td onclick="event.stopPropagation()">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delGoodModal" data-whatever="@@someTEXT"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
         }
@@ -120,6 +82,18 @@
     }
 </table>
 
-<partial name="Create" model="null" />
 <partial name="Delete" model="null" />
 <partial name="Edit" model="null" />
+
+<script>
+    var GoodsAPI = {}
+    GoodsAPI.formCreate = function () {
+        $.ajax({
+            url: '/' + GOODS + '/' + CREATE + '/',
+            type: 'get',
+            success: function () { },
+            error: function () { }
+        });
+        $('#addGoodModal').modal('show');
+    }
+</script>

@@ -5,24 +5,19 @@ using GoodsAccountingSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using GoodsAccountingSystem.Helpers;
 
 namespace GoodsAccountingSystem.Controllers
 {
-    public class AccountController : BaseController
+    public class AccountController : Controller
     {
         private IMapper _mapper;
-        private readonly AppUserManager _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-
-        public AccountController()
-            : this(new AppUserManager(new AppUserStore(new AppDbContext())))
-        { }
+        private readonly UserManager<UserModel> _userManager;
+        private readonly SignInManager<UserModel> _signInManager;
 
         public AccountController
             (
-            AppUserManager userManager,
-            SignInManager<AppUser> signInManager,
+            UserManager<UserModel> userManager,
+            SignInManager<UserModel> signInManager,
             IMapper mapper)
         {
             _userManager = userManager;
@@ -46,7 +41,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<AppUser>(model);
+                var user = _mapper.Map<UserModel>(model);
                 user.UserName = model.Email;
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -65,17 +60,6 @@ namespace GoodsAccountingSystem.Controllers
                 }
             }
             return View(model);
-        }
-
-        private async Task SignInAsync(AppUser user, bool isPersistent)
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            ClaimsIdentity identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-
-            // Extend identity claims
-            identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
-
-            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
 
         [HttpGet]

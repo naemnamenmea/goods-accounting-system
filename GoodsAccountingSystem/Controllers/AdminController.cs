@@ -13,11 +13,11 @@ namespace GoodsAccountingSystem.Controllers
 {
     public class AdminController : Controller
     {
-        UserManager<AppUser> _userManager;
+        UserManager<UserModel> _userManager;
         RoleManager<IdentityRole<int>> _roleManager;
 
         public AdminController(
-            UserManager<AppUser> manager,
+            UserManager<UserModel> manager,
             RoleManager<IdentityRole<int>> roleManager
             )
         {

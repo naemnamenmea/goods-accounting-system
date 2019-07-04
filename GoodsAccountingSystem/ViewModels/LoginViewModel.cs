@@ -9,7 +9,7 @@ namespace GoodsAccountingSystem.ViewModels
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "e-mail")]
         public string Email { get; set; }
 
         [Required]
@@ -17,7 +17,7 @@ namespace GoodsAccountingSystem.ViewModels
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "Запомнить?")]
+        [Display(Name = "Запомнить меня?")]
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
