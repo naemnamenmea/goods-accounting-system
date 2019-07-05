@@ -1,0 +1,34 @@
+﻿@using GoodsAccountingSystem.Helpers
+
+<script>
+
+    function SubCreateGoodForm(form) {
+        $.ajax({
+            url: '/Goods/Create/',
+            type: 'post',
+            //body: new FormData(form),
+            data: $('#@Constants.FORM_TO_SUBMIT_ID').serialize(),
+            //data: form.serialize(),
+            success: function (response) {
+                console.log("create good: success");
+                if (response === "good") {
+                    $('#@Constants.MODAL_ID').modal('hide');
+                } else {
+                    $('#@Constants.MODAL_ID').modal('hide');
+                    $('#@Constants.MODAL_HOLDER').html(response);
+                    //$('#@Constants.MODAL_ID').modal('show');
+                }
+                // обновить страницу
+            },
+            error: function (error) {
+                // отобразить ошибки в открытой форме
+                console.log("create good: fail");
+            }
+        });
+    }
+</script>
+
+@*
+    console.log('done');
+    setTimeout(() => { console.log('done'); }, 1000);
+*@

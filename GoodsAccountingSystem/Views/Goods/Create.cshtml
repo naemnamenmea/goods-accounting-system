@@ -1,15 +1,16 @@
-﻿@model GoodsAccountingSystem.Models.GoodModel
+﻿@using GoodsAccountingSystem.Helpers
+@model GoodsAccountingSystem.Models.GoodModel
 
 <div class="modal fade" id="addGoodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Редактирование записи</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Добавление записи</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="" onsubmit="SubCreateGoodForm(); return false;" id="createGoodForm">
+            <form asp-action="" onsubmit="SubCreateGoodForm(this); return false;" id="createGoodForm">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -47,20 +48,4 @@
     </div>
 </div>
 
-<script>
-    function SubCreateGoodForm() {
-        $.ajax({
-            url: '/Goods/Create/',
-            type: 'post',
-            data: $('#createGoodForm').serialize(),
-            success: function (response) {
-                console.log("create good: success");
-                @{ Html. }
-            },
-            error: function () {
-                console.log("create good: fail");
-            }
-        });
-        $('#addGoodModal').modal('hide');
-    }
-</script>
+<partial name="_FormSubmit" />

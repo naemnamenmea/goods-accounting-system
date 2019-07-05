@@ -56,9 +56,10 @@ namespace GoodsAccountingSystem.Controllers
             {
                 _context.Add(goodModel);
                 await _context.SaveChangesAsync();
-                return Ok();                
+                return Ok("good");                
             }
-            return BadRequest();
+            return PartialView(goodModel);
+            //return BadRequest(PartialView(goodModel).);
         }
 
         public async Task<IActionResult> Edit(int? id)
