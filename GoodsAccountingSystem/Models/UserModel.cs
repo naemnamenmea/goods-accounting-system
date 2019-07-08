@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GoodsAccountingSystem.Models
 {
-    public class UserModel : IdentityUser
+    public class User : IdentityUser
     {
         [Required]
         public string FirstName { get; set; }
@@ -23,5 +23,11 @@ namespace GoodsAccountingSystem.Models
         public string Password { get; set; }
         [Required]
         public bool Activity { get; set; } = true;
+    }
+
+    public class RoleCategory
+    {
+        public const string Admin = "admin";
+        public const string User = "user";
     }
 }

@@ -11,13 +11,13 @@ namespace GoodsAccountingSystem.Controllers
     public class AccountController : Controller
     {
         private IMapper _mapper;
-        private readonly UserManager<UserModel> _userManager;
-        private readonly SignInManager<UserModel> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public AccountController
             (
-            UserManager<UserModel> userManager,
-            SignInManager<UserModel> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IMapper mapper)
         {
             _userManager = userManager;
@@ -41,7 +41,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<UserModel>(model);
+                var user = _mapper.Map<User>(model);
                 user.UserName = model.Email;
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -103,6 +103,36 @@ namespace GoodsAccountingSystem.Controllers
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    IdentityResult result =
+                        await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Пользователь не найден");
+                }
+            }
+            return View(model);
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GoodsAccountingSystem;
 using GoodsAccountingSystem.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoodsAccountingSystem.Controllers
 {
@@ -17,7 +18,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             return View();
         }
-
+        
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

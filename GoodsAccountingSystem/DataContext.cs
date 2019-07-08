@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 namespace GoodsAccountingSystem
 {
     public class DataContext : 
-        IdentityDbContext<UserModel>
+        IdentityDbContext<User>
     {
         public DbSet<GoodModel> Goods { get; set; }
-        public DbSet<UserModel> UserModel { get; set; }
+        public DbSet<User> UserModel { get; set; }
 
         public DataContext() { }
 
