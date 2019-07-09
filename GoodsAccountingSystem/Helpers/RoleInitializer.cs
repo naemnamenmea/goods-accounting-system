@@ -11,11 +11,15 @@ namespace GoodsAccountingSystem.Helpers
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string adminEmail = "admin@gmail.com";
-            string password = "_Aa123456";
+            string adminEmail = "admin@admin.com";
+            string password = "tesT321!";
             if (await roleManager.FindByNameAsync(RoleCategory.Admin) == null)
             {
                 await roleManager.CreateAsync(new IdentityRole(RoleCategory.Admin));
+            }
+            if (await roleManager.FindByNameAsync(RoleCategory.Anonymous) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(RoleCategory.Anonymous));
             }
             if (await roleManager.FindByNameAsync(RoleCategory.User) == null)
             {
@@ -23,7 +27,16 @@ namespace GoodsAccountingSystem.Helpers
             }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User { Email = adminEmail, UserName = adminEmail };
+                User admin = new User()
+                {
+                    Email = adminEmail,
+                    UserName = adminEmail,
+                    FirstName = "admin",
+                    SecondName = "admin",
+                    MiddleName = "admin",
+                    RegisterDate = DateTime.Now,
+                    BirthDate = new DateTime()
+                };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {

@@ -18,7 +18,7 @@ namespace GoodsAccountingSystem
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args);
+            var host = BuildWebHost(args);
 
             using (var scope = host.Services.CreateScope())
             {
@@ -39,7 +39,7 @@ namespace GoodsAccountingSystem
             host.Run();
         }
 
-        public static IWebHost CreateWebHostBuilder(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>().Build();
     }

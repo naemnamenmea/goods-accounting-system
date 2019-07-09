@@ -16,11 +16,7 @@ namespace GoodsAccountingSystem.Models
         [Required]
         public DateTime RegisterDate { get; set; }
         [Required]
-        public DateTime BirthDate { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
+        public DateTime BirthDate { get; set; }        
         [Required]
         public bool Activity { get; set; } = true;
     }
@@ -29,5 +25,6 @@ namespace GoodsAccountingSystem.Models
     {
         public const string Admin = "admin";
         public const string User = "user";
+        public const string Anonymous = "anonymous";
     }
 }
