@@ -1,4 +1,5 @@
 ﻿@using GoodsAccountingSystem.Helpers;
+@using System.Security.Claims;
 
 <!DOCTYPE html>
 <html>
@@ -41,6 +42,11 @@
                 {
                     <li class="nav-item"><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link">Аккаунт</a></li>
                     <li class="nav-item"><a asp-area="" asp-controller="Admin" asp-action="Index" class="nav-link">Панель управления</a></li>
+                    <li class="nav-item">
+                        <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
+                            <button type="submit" class="btn nav-link shadow-none">Выйти</button>
+                        </form>
+                    </li>
                 }
                 else
                 {
@@ -48,12 +54,6 @@
                     <li class="nav-item"><a asp-controller="Account" asp-action="Register" class="nav-link">Регистрация</a></li>
                 }
             </ul>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <form method="post" asp-area="" asp-controller="Account" asp-action="LogOff">
-                    <input type="submit" value="Выйти" class="nav-link" />
-                </form>
-            }
         </div>
     </nav>
 
