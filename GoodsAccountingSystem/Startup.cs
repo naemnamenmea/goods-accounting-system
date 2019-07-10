@@ -47,7 +47,7 @@ namespace GoodsAccountingSystem
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Goods/Error");
                 app.UseHsts();
             }
 
@@ -60,7 +60,7 @@ namespace GoodsAccountingSystem
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Goods}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,10 +1,11 @@
 ﻿@model GoodsAccountingSystem.Models.GoodModel
+@using GoodsAccountingSystem.Helpers
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<div id="delGoodModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="@Constants.MODAL_ID" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-confirm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -52,7 +53,7 @@
                 </dl>
             </div>
             <div class="modal-footer">
-                <form asp-action="" onsubmit="SubDeleteGoodForm()" id="deleteGoodForm">
+                <form asp-action="Delete" asp-controller="Goods" method="post">
                     <input type="hidden" asp-for="Id" />
                     <button type="button" class="btn btn-light border-dark" data-dismiss="modal">Отмена</button>
                     <input type="submit" value="Удалить" class="btn btn-danger" />
@@ -61,26 +62,3 @@
         </div>
     </div>
 </div>
-
-@{
-    <script>
-        function SubDeleteGoodForm() {
-            $.ajax({
-                url: '/Goods/Delete/',
-                type: 'post',
-                data: $('#deleteGoodForm').serialize(),
-                success: function (response) {
-                    /*
-                     * Вывести попап окно aka тостер
-                     */
-                    console.log("delete good: success");
-                    console.log(response);
-                },
-                error: function () {
-                    console.log("delete good: fail");
-                }
-            });
-            $('#delGoodModal').modal('hide');
-        }
-    </script>
-}

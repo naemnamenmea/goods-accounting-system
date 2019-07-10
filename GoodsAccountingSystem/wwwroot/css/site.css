@@ -4,10 +4,28 @@ for details on configuring this project to bundle and minify static web assets. 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 
+html, body {
+    height: 100%;
+}
+
+.body-content-wrap {
+    min-height: 100%;
+}
+
 .body-content {
+    overflow:auto;
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 70px;
 }
+
+.footer {
+    position: relative;
+    margin-top: -70px;
+    height: 70px;
+    clear: both;
+    padding-top: 20px;
+} 
 
 /* Carousel */
 .carousel-caption p {

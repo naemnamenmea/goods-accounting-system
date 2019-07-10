@@ -11,12 +11,12 @@
     </div>
     <div>
         <label asp-for="Password"></label><br />
-        <input asp-for="Password" type="password" name="password" />
+        <input asp-for="Password" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" type="password" name="password" />
+        <input asp-for="PasswordConfirm" type="password" />
         <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
     </div>
     <div>
@@ -46,25 +46,25 @@
 
 <script>
     $(function () {
-        $("#registerForm").validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: true
-                },
-                password: {
-                    required: true,
-                    minlength: 5
-                }
-            },
-            messages: {
-                email: {
+        //$("#registerForm").validate({
+        //    rules: {
+        //        email: {
+        //            required: true,
+        //            email: true
+        //        },
+        //        password: {
+        //            required: true,
+        //            minlength: 5
+        //        }
+        //    },
+        //    messages: {
+        //        email: {
 
-                },
-                password: {
-                    minlength: "min length is 511111"
-                }
-            }
-        });
+        //        },
+        //        password: {
+        //            minlength: "min length is 511111"
+        //        }
+        //    }
+        //});
     });
 </script>

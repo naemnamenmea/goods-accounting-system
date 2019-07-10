@@ -17,7 +17,7 @@ namespace GoodsAccountingSystem.Helpers
 
         public static IdentityBuilder ConfigureIdentity(this IServiceCollection services)
         {
-            return services.AddIdentity<User, IdentityRole>(o => {
+            return services.AddIdentity<UserModel, IdentityRole>(o => {
                 o.Password.RequiredLength = 5;
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequireLowercase = false;

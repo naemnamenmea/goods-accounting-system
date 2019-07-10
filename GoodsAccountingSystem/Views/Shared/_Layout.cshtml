@@ -43,7 +43,10 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item"><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link">Аккаунт</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="Admin" asp-action="Index" class="nav-link">Панель управления</a></li>
+                    @if (User.IsInRole(RoleCategory.Admin))
+                    {
+                        <li class="nav-item"><a asp-area="" asp-controller="Admin" asp-action="Index" class="nav-link">Панель управления</a></li>
+                    }
                 }
                 else
                 {
@@ -63,14 +66,16 @@
     <partial name="_CookieConsentPartial" />
     <partial name="_FormGet" />
 
-    <div class="container body-content">
-        @RenderBody()
-        <div id='@Constants.MODAL_HOLDER'></div>
-        <hr />
-        <footer class="text-center">
-            <p>&copy; 2119 - GoodsAccountingSystem</p>
-        </footer>
+    <div class="body-content-wrap">
+        <div class="container body-content">
+            @RenderBody()
+            <div id='@Constants.MODAL_HOLDER'></div>
+        </div>
     </div>
+    <footer class="footer flex-wrap align-content-center">
+        <hr />
+        <p class="text-center">&copy; 2119 - GoodsAccountingSystem</p>
+    </footer>
 
     <environment include="Development">
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

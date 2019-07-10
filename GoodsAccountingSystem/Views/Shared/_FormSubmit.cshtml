@@ -11,12 +11,12 @@
             //data: form.serialize(),
             success: function (response) {
                 console.log("create good: success");
+                    $('#@Constants.MODAL_ID').modal('hide');
                 if (response === "good") {
-                    $('#@Constants.MODAL_ID').modal('hide');
                 } else {
-                    $('#@Constants.MODAL_ID').modal('hide');
+                    @*$('#@Constants.MODAL_ID').modal('hide');
                     $('#@Constants.MODAL_HOLDER').html(response);
-                    $('#@Constants.MODAL_ID').modal('show');
+                    $('#@Constants.MODAL_ID').modal('show');*@
                 }
                 // обновить страницу
             },

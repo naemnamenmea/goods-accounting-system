@@ -11,13 +11,13 @@ namespace GoodsAccountingSystem.Controllers
     public class AccountController : Controller
     {
         private IMapper _mapper;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<UserModel> _userManager;
+        private readonly SignInManager<UserModel> _signInManager;
 
         public AccountController
             (
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
+            UserManager<UserModel> userManager,
+            SignInManager<UserModel> signInManager,
             IMapper mapper)
         {
             _userManager = userManager;
@@ -41,7 +41,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<User>(model);
+                var user = _mapper.Map<UserModel>(model);
                 user.UserName = model.Email;
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -85,7 +85,7 @@ namespace GoodsAccountingSystem.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Goods");
                     }
                 }
                 else
@@ -102,7 +102,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Goods");
         }
 
         [HttpPost]
@@ -110,7 +110,7 @@ namespace GoodsAccountingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _userManager.FindByIdAsync(model.Id);
+                UserModel user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
                     IdentityResult result =

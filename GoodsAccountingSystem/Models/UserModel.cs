@@ -5,18 +5,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GoodsAccountingSystem.Models
 {
-    public class User : IdentityUser
+    public class UserModel : IdentityUser
     {
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string SecondName { get; set; }
+
         [Required]
         public string MiddleName { get; set; }
+
         [Required]
+        [DataType(DataType.Date)]
         public DateTime RegisterDate { get; set; }
+
         [Required]
-        public DateTime BirthDate { get; set; }        
+        [DataType(DataType.Date)]
+        public DateTime BirthDate { get; set; }
+
         [Required]
         public bool Activity { get; set; } = true;
     }
@@ -24,7 +31,5 @@ namespace GoodsAccountingSystem.Models
     public class RoleCategory
     {
         public const string Admin = "admin";
-        public const string User = "user";
-        public const string Anonymous = "anonymous";
     }
 }

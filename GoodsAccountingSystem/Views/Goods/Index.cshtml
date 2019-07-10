@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations;
 @using System.ComponentModel;
 @using GoodsAccountingSystem.Helpers;
-@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
+@model IEnumerable<GoodsAccountingSystem.ViewModels.GoodViewModel>
 
 @{
     ViewData["Title"] = "GoodsList";
@@ -45,7 +45,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick"showModal('@Constants.GOODS','@Constants.CREATE')">
+            <tr onclick="showModal('@Constants.GOODS','@Constants.EDIT','@item.Id')">
                 <td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
@@ -72,7 +72,7 @@
                     @Html.DisplayFor(modelItem => item.Attachment)
                 </td>
                 <td onclick="event.stopPropagation()">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delGoodModal" data-whatever="@@someTEXT"><i class="fas fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-danger" onclick="showModal('@Constants.GOODS','@Constants.DELETE','@item.Id')"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
         }

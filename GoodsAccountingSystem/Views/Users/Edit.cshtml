@@ -1,4 +1,4 @@
-﻿@model GoodsAccountingSystem.Models.User
+﻿@model GoodsAccountingSystem.Models.UserModel
 
 @{
     ViewBag.Title = "Редактирование пользователя";
@@ -19,6 +19,13 @@
                 <label asp-for="Email" class="control-label">Email</label>
                 <input type="text" asp-for="Email" class="form-control" />
             </div>
+            @*<div class="form-group">
+                @foreach (IdentityRole role in Model.AllRoles)
+                {
+                    <input type="checkbox" name="roles" value="@role.Name"
+                           @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+                    }
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
