@@ -16,9 +16,10 @@ namespace GoodsAccountingSystem.Helpers
         public static string DELETE = "Delete";
         public static string EDIT = "Edit";
 
-        public static string MODAL_HOLDER = "formHolder";
-        public static string MODAL_ID = "addGoodModal";
-        public static string FORM_TO_SUBMIT_ID = "createGoodForm";
+        public static string MODAL_HOLDER = "modalHolder";
+        public static string FORM_TO_SUBMIT_ID = "formToSubmitId";
+
+        public static string MODAL_ID = "modalId";
 
         public static Dictionary<string, string> Method =
             new Dictionary<string, string>()

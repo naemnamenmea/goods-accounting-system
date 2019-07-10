@@ -10,9 +10,14 @@ namespace GoodsAccountingSystem.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
 
         [Required]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
@@ -31,11 +36,6 @@ namespace GoodsAccountingSystem.ViewModels
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
+        public DateTime BirthDate { get; set; }        
     }
 }

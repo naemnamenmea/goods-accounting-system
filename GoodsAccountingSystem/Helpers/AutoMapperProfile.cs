@@ -14,6 +14,14 @@ namespace GoodsAccountingSystem.Helpers
         {
             CreateMap<RegisterViewModel, UserModel>();
             CreateMap<UserModel, RegisterViewModel>();
+
+            CreateMap<UserModel, UserViewModel>();
+            CreateMap<UserViewModel, UserModel>();
+
+            CreateMap<CreateGoodViewModel, GoodModel>();
+            CreateMap<GoodModel, CreateGoodViewModel>();
+
+            CreateMap<GoodModel, GoodViewModel>();
         }
     }
 }

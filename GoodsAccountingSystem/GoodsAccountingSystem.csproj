@@ -4,23 +4,22 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
     <UserSecretsId>70c57ae4-5478-46a3-9ba0-4240e03b5484</UserSecretsId>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
-    <PackageReference Include="bootstrap" Version="4.3.1" />
-    <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NET.Sdk.Razor" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="MySql.Data" Version="8.0.16" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

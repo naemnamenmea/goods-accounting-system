@@ -8,24 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using GoodsAccountingSystem;
 using GoodsAccountingSystem.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoodsAccountingSystem.Controllers
 {
     public class AdminController : Controller
     {
         UserManager<UserModel> _userManager;
-        RoleManager<IdentityRole<int>> _roleManager;
+        RoleManager<IdentityRole> _roleManager;
 
         public AdminController(
             UserManager<UserModel> manager,
-            RoleManager<IdentityRole<int>> roleManager
+            RoleManager<IdentityRole> roleManager
             )
         {
             _userManager = manager;
             _roleManager = roleManager;
         }
 
-        // GET: Users
+        [Authorize(Roles = RoleCategory.Admin)]
         public async Task<IActionResult> Index()
         {
             return View(await _userManager.Users.ToListAsync());

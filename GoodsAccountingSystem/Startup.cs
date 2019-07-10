@@ -1,19 +1,12 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using GoodsAccountingSystem.Helpers;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
-using GoodsAccountingSystem.Models;
-using static GoodsAccountingSystem.Models.UserModel;
 
 namespace GoodsAccountingSystem
 {
@@ -38,8 +31,8 @@ namespace GoodsAccountingSystem
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.ConfigureMySqlContext(Configuration);
-            services.AddIdentity<UserModel, IdentityRole>()
+            services.ConfigureMySqlContext(Configuration)
+                .ConfigureIdentity()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -54,7 +47,7 @@ namespace GoodsAccountingSystem
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Goods/Error");
                 app.UseHsts();
             }
 
@@ -67,7 +60,7 @@ namespace GoodsAccountingSystem
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Goods}/{action=Index}/{id?}");
             });
         }
     }

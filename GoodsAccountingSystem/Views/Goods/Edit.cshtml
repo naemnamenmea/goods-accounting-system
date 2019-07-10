@@ -1,10 +1,11 @@
 ﻿@model GoodsAccountingSystem.Models.GoodModel
+@using GoodsAccountingSystem.Helpers
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<div class="modal fade" id="editGoodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="@Constants.MODAL_ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,7 +14,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="" onsubmit="SubEditGoodForm()" id="">
+            <form asp-action="Edit" asp-controller="Goods" method="post">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
@@ -44,29 +45,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" value="сохранить" class="btn btn-default" />
+                    <button type="button" class="btn btn-light border-dark" data-dismiss="modal">Отмена</button>
+                    <input type="submit" value="Сохранить" class="btn btn-info" />
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-@{
-    <script>
-        function SubEditGoodForm() {
-            $.ajax({
-                url: '/Goods/Edit/',
-                type: 'post',
-                data: $('#editGoodForm').serialize(),
-                success: function (response) {
-                    console.log("edit good: success");
-                    console.log(response);
-                },
-                error: function () {
-                    console.log("edit good: fail");
-                }
-            });
-            $('#editGoodModal').modal('hide');
-        }
-    </script>
-}

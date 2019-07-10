@@ -9,19 +9,27 @@ namespace GoodsAccountingSystem.Models
     {
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string SecondName { get; set; }
+
         [Required]
         public string MiddleName { get; set; }
+
         [Required]
+        [DataType(DataType.Date)]
         public DateTime RegisterDate { get; set; }
+
         [Required]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
+
         [Required]
         public bool Activity { get; set; } = true;
+    }
+
+    public class RoleCategory
+    {
+        public const string Admin = "admin";
     }
 }

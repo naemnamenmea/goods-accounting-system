@@ -2,44 +2,69 @@
 
 <h2>Регистрация нового пользователя</h2>
 
-<form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
+<form method="post" asp-controller="Account" asp-action="Register" id="registerForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div>
         <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+        <input asp-for="Email" type="email" name="email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" />
-        <span asp-validation-for="PasswordConfirm"></span>
+        <input asp-for="PasswordConfirm" type="password" />
+        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="FirstName"></label><br />
         <input asp-for="FirstName" />
-        <span asp-validation-for="FirstName"></span>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="SecondName"></label><br />
         <input asp-for="SecondName" />
-        <span asp-validation-for="SecondName"></span>
+        <span asp-validation-for="SecondName" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="MiddleName"></label><br />
         <input asp-for="MiddleName" />
-        <span asp-validation-for="MiddleName"></span>
+        <span asp-validation-for="MiddleName" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="BirthDate"></label><br />
         <input type="date" asp-for="BirthDate" />
-        <span asp-validation-for="BirthDate"></span>
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
     </div>
     <div>
         <input type="submit" value="Регистрация" />
     </div>
 </form>
+
+<script>
+    $(function () {
+        //$("#registerForm").validate({
+        //    rules: {
+        //        email: {
+        //            required: true,
+        //            email: true
+        //        },
+        //        password: {
+        //            required: true,
+        //            minlength: 5
+        //        }
+        //    },
+        //    messages: {
+        //        email: {
+
+        //        },
+        //        password: {
+        //            minlength: "min length is 511111"
+        //        }
+        //    }
+        //});
+    });
+</script>

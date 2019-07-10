@@ -11,8 +11,6 @@ namespace GoodsAccountingSystem
         public DbSet<GoodModel> Goods { get; set; }
         public DbSet<UserModel> UserModel { get; set; }
 
-        public DataContext() { }
-
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         { }

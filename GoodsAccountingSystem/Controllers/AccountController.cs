@@ -85,7 +85,7 @@ namespace GoodsAccountingSystem.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Goods");
                     }
                 }
                 else
@@ -102,7 +102,37 @@ namespace GoodsAccountingSystem.Controllers
         {
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Goods");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserModel user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    IdentityResult result =
+                        await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Пользователь не найден");
+                }
+            }
+            return View(model);
         }
     }
 }

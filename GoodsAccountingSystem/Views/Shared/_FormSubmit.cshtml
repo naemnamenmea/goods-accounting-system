@@ -11,11 +11,17 @@
             //data: form.serialize(),
             success: function (response) {
                 console.log("create good: success");
-                if (response === "good") {
                     $('#@Constants.MODAL_ID').modal('hide');
+                if (response === "good") {
                 } else {
+<<<<<<< HEAD
                     $('#@Constants.MODAL_HOLDER').html(response);
                     $('#@Constants.MODAL_ID').modal('show');
+=======
+                    @*$('#@Constants.MODAL_ID').modal('hide');
+                    $('#@Constants.MODAL_HOLDER').html(response);
+                    $('#@Constants.MODAL_ID').modal('show');*@
+>>>>>>> af0e6bb80fe073a16dd1259142407ae24eee1ff2
                 }
                 // обновить страницу
             },

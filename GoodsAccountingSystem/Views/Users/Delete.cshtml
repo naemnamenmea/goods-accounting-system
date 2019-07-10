@@ -42,18 +42,6 @@
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Activity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Activity)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.UserName)
         </dt>
         <dd>
@@ -139,7 +127,7 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-controller="Users">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>

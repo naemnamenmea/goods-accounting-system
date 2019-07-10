@@ -2,10 +2,17 @@
 @using System.ComponentModel.DataAnnotations;
 @using System.ComponentModel;
 @using GoodsAccountingSystem.Helpers;
-@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
+@using GoodsAccountingSystem.Models;
+@model IEnumerable<GoodsAccountingSystem.ViewModels.GoodViewModel>
 
 @{
     ViewData["Title"] = "GoodsList";
+
+    var ErrorModel = TempData.Get<GoodModel>("EditErrors");
+
+    <script>
+        console.log(@ErrorModel);
+    </script>
 }
 
 <h2>Список товаров</h2>
@@ -45,7 +52,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick"showModal('@Constants.GOODS','@Constants.CREATE')">
+            <tr onclick="showModal('@Constants.GOODS','@Constants.EDIT','@item.Id')">
                 <td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
@@ -72,7 +79,7 @@
                     @Html.DisplayFor(modelItem => item.Attachment)
                 </td>
                 <td onclick="event.stopPropagation()">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delGoodModal" data-whatever="@@someTEXT"><i class="fas fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-danger" onclick="showModal('@Constants.GOODS','@Constants.DELETE','@item.Id')"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
         }
