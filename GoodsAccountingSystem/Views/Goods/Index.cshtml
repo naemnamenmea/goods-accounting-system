@@ -1,18 +1,26 @@
-﻿@using System.Reflection;
-@using System.ComponentModel.DataAnnotations;
-@using System.ComponentModel;
-@using GoodsAccountingSystem.Helpers;
-@using GoodsAccountingSystem.Models;
+﻿@using GoodsAccountingSystem.Helpers;
 @model IEnumerable<GoodsAccountingSystem.ViewModels.GoodViewModel>
 
 @{
     ViewData["Title"] = "GoodsList";
 
-    var ErrorModel = TempData.Get<GoodModel>("EditErrors");
+    object ErrorModal = 
+        TempData["EditErrorModal"] ??
+        TempData["CreateErrorModal"];
 
-    <script>
-        console.log(@ErrorModel);
-    </script>
+    @section Scripts {
+        @if (ErrorModal != null)
+        {
+            <script>
+                var content = `@Html.Raw((string)ErrorModal)`;
+                $('#@Constants.MODAL_HOLDER').html(content);
+                console.log($('#@Constants.MODAL_ID'));
+                $('#@Constants.MODAL_ID').modal('show');
+            </script>
+        }
+    }
+
+
 }
 
 <h2>Список товаров</h2>

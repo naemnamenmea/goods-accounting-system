@@ -4,8 +4,6 @@
     ViewBag.Title = "Список пользователей";
 }
 
-<a asp-action="Create">Добавить пользователя</a>
-
 <h2>Список пользователей</h2>
 
 <table class="table table-bordered table-hover table-edit">
@@ -24,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.MiddleName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Role)
+                @Html.DisplayNameFor(model => model.Roles)
             </th>
             <th>
                 <button type="button" class="btn btn-success" onclick="showModal('@Constants.USERS','@Constants.CREATE')"><i class="fas fa-plus"></i></button>
@@ -48,7 +46,7 @@
                 @Html.DisplayFor(userd => user.MiddleName)
             </td>
             <td>
-                @Html.DisplayFor(userd => user.Role)
+                @Html.DisplayFor(userd => user.Roles)
             </td>
             @*<td>
             <form asp-action="Delete" asp-route-id="@user.Id" method="post">
@@ -69,6 +67,3 @@
         //grid.Pager(WebGridPagerModes.NextPrevious);
     }
 </table>
-
-<a asp-action="Create">Добавить роль</a>
-<a asp-action="UserList">Список пользователей</a>

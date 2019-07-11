@@ -28,8 +28,11 @@ namespace GoodsAccountingSystem.Models
         public bool Activity { get; set; } = true;
     }
 
-    public class RoleCategory
+    public enum RoleCategory
     {
-        public const string Admin = "admin";
+        Admin,
+        User,
+        Anonymous,
+        ContentManager
     }
 }

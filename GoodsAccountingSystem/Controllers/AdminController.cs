@@ -26,7 +26,7 @@ namespace GoodsAccountingSystem.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = RoleCategory.Admin)]
+        [Authorize(Roles = RoleCategory.Admin.ToString())]
         public async Task<IActionResult> Index()
         {
             return View(await _userManager.Users.ToListAsync());

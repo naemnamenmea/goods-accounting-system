@@ -1,5 +1,5 @@
 ﻿@using GoodsAccountingSystem.Helpers
-@model GoodsAccountingSystem.Models.GoodModel
+@model GoodsAccountingSystem.ViewModels.CreateGoodViewModel
 
 <div class="modal fade" id="@Constants.MODAL_ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="Create" asp-controller="Goods" method="post" @*onsubmit="SubCreateGoodForm(this); return false;"*@ id="createGoodForm">
+            <form asp-action="Create" asp-controller="Goods" method="post" @*onsubmit="SubCreateGoodForm(this); return false;" *@ id="createGoodForm">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">

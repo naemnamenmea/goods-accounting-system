@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoodsAccountingSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace GoodsAccountingSystem.ViewModels
         public string Email { get; set; }
 
         [Required]
-        public string Role { get; set; }
+        public HashSet<RoleCategory> Roles { get; set; }
     }
 
     public class EditUserByAdminViewModel

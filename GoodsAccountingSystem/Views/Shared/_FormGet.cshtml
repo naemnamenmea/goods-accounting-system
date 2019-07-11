@@ -2,14 +2,14 @@
 
 <script>
     function showModal(controller, action, id=null) {
-    $.ajax({
-        url: `/${controller}/${action}?id=${id}`,
-        type: 'get',
-        success: function (response) {
-            $('#@Constants.MODAL_HOLDER').empty().append(response);
-            $('#@Constants.MODAL_ID').modal('show');
-        },
-        error: function () { }
-    });
-}
+        $.ajax({
+            url: `/${controller}/${action}?id=${id}`,
+            type: 'get',
+            success: function (response) {
+                $('#@Constants.MODAL_HOLDER').empty().append(response);
+                $('#@Constants.MODAL_ID').modal('show');
+            },
+            error: function () { }
+        });
+    }
 </script>
