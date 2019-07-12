@@ -11,9 +11,9 @@ namespace GoodsAccountingSystem.Helpers
         {
             string adminEmail = "admin@admin.com";
             string password = "tesT321!";
-            if (await roleManager.FindByNameAsync(RoleCategory.Admin) == null)
+            if (await roleManager.FindByNameAsync("admin") == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(RoleCategory.Admin));
+                await roleManager.CreateAsync(new IdentityRole("admin"));
             }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
@@ -30,7 +30,7 @@ namespace GoodsAccountingSystem.Helpers
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, RoleCategory.Admin);
+                    await userManager.AddToRoleAsync(admin, "admin");
                 }
             }
         }

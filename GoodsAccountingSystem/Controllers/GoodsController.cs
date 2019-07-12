@@ -66,7 +66,7 @@ namespace GoodsAccountingSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            var partialViewHtml = await this.RenderViewAsync("Create", model, true);
+            var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
             TempData.Put("CreateErrorModal", partialViewHtml);
             return RedirectToAction(nameof(Index));
         }
@@ -115,7 +115,7 @@ namespace GoodsAccountingSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var partialViewHtml = await this.RenderViewAsync("Edit", model, true);
+            var partialViewHtml = await this.RenderViewAsync(nameof(Edit), model, true);
             TempData.Put("EditErrorModal", partialViewHtml);
             return RedirectToAction(nameof(Index));
         }

@@ -11,6 +11,7 @@ using GoodsAccountingSystem.Models;
 using GoodsAccountingSystem.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using GoodsAccountingSystem.Helpers;
 
 namespace GoodsAccountingSystem.Controllers
 {
@@ -53,7 +54,7 @@ namespace GoodsAccountingSystem.Controllers
                 var result = await _userManager.CreateAsync(UserModel, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -63,7 +64,9 @@ namespace GoodsAccountingSystem.Controllers
                     }
                 }
             }
-            return View(model);
+            var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
+            TempData.Put("CreateErrorModal", partialViewHtml);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int id)

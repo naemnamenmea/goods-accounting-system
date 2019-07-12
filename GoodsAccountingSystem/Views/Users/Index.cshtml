@@ -4,7 +4,9 @@
     ViewBag.Title = "Список пользователей";
 }
 
-<h2>Список пользователей</h2>
+<div>
+    <h2 class="text-center">Список пользователей</h2>
+</div>
 
 <table class="table table-bordered table-hover table-edit">
     <thead>
@@ -32,34 +34,34 @@
     <tbody>
         @foreach (var user in Model)
         {
-        <tr onclick="showModal('@Constants.USERS','@Constants.EDIT')">
-            <td>
-                @Html.DisplayFor(userd => user.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(userd => user.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(userd => user.SecondName)
-            </td>
-            <td>
-                @Html.DisplayFor(userd => user.MiddleName)
-            </td>
-            <td>
-                @Html.DisplayFor(userd => user.Roles)
-            </td>
-            @*<td>
-            <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
-                <button type="submit" class="btn btn-sm btn-danger">
-                    Удалить
-                </button>
-            </form>
-        </td>*@
-            <td onclick="event.stopPropagation()">
-                <button type="button" class="btn btn-danger" onclick="showModal('@Constants.USERS','@Constants.DELETE','@user.Id')"><i class="fas fa-user-times"></i></button>
-            </td>
-        </tr>
+            <tr onclick="showModal('@Constants.USERS','@Constants.EDIT')">
+                <td>
+                    @Html.DisplayFor(userd => user.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(userd => user.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(userd => user.SecondName)
+                </td>
+                <td>
+                    @Html.DisplayFor(userd => user.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(userd => user.Roles)
+                </td>
+                @*<td>
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>*@
+                <td onclick="event.stopPropagation()">
+                    <button type="button" class="btn btn-danger" onclick="showModal('@Constants.USERS','@Constants.DELETE','@user.Id')"><i class="fas fa-user-times"></i></button>
+                </td>
+            </tr>
         }
     </tbody>
     @{
@@ -67,3 +69,5 @@
         //grid.Pager(WebGridPagerModes.NextPrevious);
     }
 </table>
+
+@{Html.RenderPartialAsync("FormScripts");}

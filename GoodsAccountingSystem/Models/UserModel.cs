@@ -27,12 +27,4 @@ namespace GoodsAccountingSystem.Models
         [Required]
         public bool Activity { get; set; } = true;
     }
-
-    public enum RoleCategory
-    {
-        Admin,
-        User,
-        Anonymous,
-        ContentManager
-    }
 }

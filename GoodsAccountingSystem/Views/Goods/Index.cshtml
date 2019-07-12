@@ -4,23 +4,20 @@
 @{
     ViewData["Title"] = "GoodsList";
 
-    object ErrorModal = 
+    object ErrorModal =
         TempData["EditErrorModal"] ??
         TempData["CreateErrorModal"];
 
-    @section Scripts {
-        @if (ErrorModal != null)
-        {
-            <script>
-                var content = `@Html.Raw((string)ErrorModal)`;
-                $('#@Constants.MODAL_HOLDER').html(content);
-                console.log($('#@Constants.MODAL_ID'));
-                $('#@Constants.MODAL_ID').modal('show');
-            </script>
-        }
-    }
+}
 
-
+@if (ErrorModal != null)
+{
+    <script>
+        var content = `@Html.Raw((string)ErrorModal)`;
+        $('#@Constants.MODAL_HOLDER').html(content);
+        console.log($('#@Constants.MODAL_ID'));
+        $('#@Constants.MODAL_ID').modal('show');
+    </script>
 }
 
 <h2>Список товаров</h2>
@@ -97,3 +94,5 @@
         //grid.Pager(WebGridPagerModes.NextPrevious);
     }
 </table>
+
+@{Html.RenderPartialAsync("FormScripts");}

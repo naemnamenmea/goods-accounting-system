@@ -63,7 +63,7 @@ namespace GoodsAccountingSystem.ViewModels
         public string Email { get; set; }
 
         [Required]
-        public HashSet<RoleCategory> Roles { get; set; }
+        public List<string> Roles { get; set; }
     }
 
     public class EditUserByAdminViewModel
