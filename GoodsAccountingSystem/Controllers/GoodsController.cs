@@ -26,6 +26,7 @@ namespace GoodsAccountingSystem.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Goods.Select(good => _mapper.Map<GoodViewModel>(good)).ToListAsync());
@@ -68,6 +69,7 @@ namespace GoodsAccountingSystem.Controllers
             }
             var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
             TempData.Put("CreateErrorModal", partialViewHtml);
+            TempData["test"] = "Jhon";
             return RedirectToAction(nameof(Index));
         }
 

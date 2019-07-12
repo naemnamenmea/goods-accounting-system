@@ -19,12 +19,18 @@ namespace GoodsAccountingSystem.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Test()
+        {
+            TempData["test"] = "some text";
+            return RedirectToAction(nameof(Index));
+        }
+
+
         // GET: Sandbox
         public async Task<IActionResult> Index()
         {
             return View(await _context.Goods.ToListAsync());
         }
-
         // GET: Sandbox/Details/5
         public async Task<IActionResult> Details(int? id)
         {
