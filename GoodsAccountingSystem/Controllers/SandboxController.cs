@@ -19,7 +19,7 @@ namespace GoodsAccountingSystem.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Test()
+        public IActionResult Test()
         {
             TempData["test"] = "some text";
             return RedirectToAction(nameof(Index));

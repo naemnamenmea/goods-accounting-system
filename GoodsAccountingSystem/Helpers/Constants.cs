@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GoodsAccountingSystem.Helpers
 {
-    public static class Constants
+    public class Constants
     {
         public static string GOODS = "Goods";
         public static string ACCOUNT = "Account";

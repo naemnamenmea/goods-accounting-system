@@ -1,7 +1,7 @@
 ﻿@using GoodsAccountingSystem.Helpers
 
 <script>
-    function showModal(controller, action, id=null) {
+    function showModal(controller, action, id = null) {
     $.ajax({
         url: `/${controller}/${action}?id=${id}`,
         type: 'get',
@@ -14,22 +14,20 @@
     }
 </script>
 
-@*
-    @section Scripts {
-        @{
-            object ErrorModal =
+@section Scripts {     
+@{
+    object ErrorModal =
                 TempData["EditErrorModal"] ??
                 TempData["CreateErrorModal"];
 
-            if (ErrorModal != null)
-            {
-                <script>
-                    var content = `@Html.Raw((string)ErrorModal)`;
-                    $('#@Constants.MODAL_HOLDER').html(content);
-                    console.log($('#@Constants.MODAL_ID'));
-                    $('#@Constants.MODAL_ID').modal('show');
-                </script>
-            }
+    if (ErrorModal != null)
+    {
+        <script>
+            var content = `@Html.Raw((string)ErrorModal)`;
+            $('#@Constants.MODAL_HOLDER').html(content);
+            console.log($('#@Constants.MODAL_ID'));
+            $('#@Constants.MODAL_ID').modal('show');
+        </script>
         }
     }
-*@
+}

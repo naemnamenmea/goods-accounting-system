@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace GoodsAccountingSystem
 {
@@ -30,6 +31,13 @@ namespace GoodsAccountingSystem
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            //services.ConfigureApplicationCookie(options =>
+            //    options.Events.OnRedirectToLogin = context =>
+            //    {
+            //        context.Response.StatusCode = 401;
+            //        return Task.CompletedTask;
+            //    }
+            //);
 
             services.ConfigureMySqlContext(Configuration)
                 .ConfigureIdentity()

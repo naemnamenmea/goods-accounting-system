@@ -26,7 +26,6 @@ namespace GoodsAccountingSystem.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Goods.Select(good => _mapper.Map<GoodViewModel>(good)).ToListAsync());
@@ -65,11 +64,11 @@ namespace GoodsAccountingSystem.Controllers
                 newGood.InStock = true;
                 _context.Goods.Add(newGood);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
-            TempData.Put("CreateErrorModal", partialViewHtml);
-            TempData["test"] = "Jhon";
+            } else
+            {
+                var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
+                TempData.Put("CreateErrorModal", partialViewHtml);
+            }            
             return RedirectToAction(nameof(Index));
         }
 

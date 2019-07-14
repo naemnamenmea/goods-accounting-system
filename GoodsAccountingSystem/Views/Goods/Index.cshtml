@@ -1,24 +1,7 @@
-﻿@using GoodsAccountingSystem.Helpers;
-@model IEnumerable<GoodsAccountingSystem.ViewModels.GoodViewModel>
-
+﻿@model IEnumerable<GoodsAccountingSystem.ViewModels.GoodViewModel>
+@using GoodsAccountingSystem.Helpers
 @{
-    ViewData["Title"] = "GoodsList";
-
-    object ErrorModal =
-        TempData["EditErrorModal"] ??
-        TempData["CreateErrorModal"];
-    var x = TempData["test"];
-
-}
-
-@if (ErrorModal != null)
-{
-    <script>
-        var content = `@Html.Raw((string)ErrorModal)`;
-        $('#@Constants.MODAL_HOLDER').html(content);
-        console.log($('#@Constants.MODAL_ID'));
-        $('#@Constants.MODAL_ID').modal('show');
-    </script>
+    ViewBag.Title = "GoodsList";
 }
 
 <h2>Список товаров</h2>
@@ -96,4 +79,4 @@
     }
 </table>
 
-@{Html.RenderPartialAsync("FormScripts");}
+@{await Html.RenderPartialAsync("FormScripts");}
