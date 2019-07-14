@@ -38,7 +38,7 @@
             {
                 <ul class="navbar-nav">
                     <li class="nav-item"><a asp-area="" asp-controller="Account" asp-action="Index" class="nav-link">Аккаунт</a></li>
-                    @if (User.IsInRole("admin"))
+                    @if (User.IsInRole(Role.ADMIN))
                     {
                         <li class="nav-item"><a asp-area="" asp-controller="Admin" asp-action="Index" class="nav-link">Панель управления</a></li>
                     }

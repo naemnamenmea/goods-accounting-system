@@ -12,15 +12,17 @@ namespace GoodsAccountingSystem.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<RegisterViewModel, UserModel>();
             CreateMap<UserModel, RegisterViewModel>();
-
             CreateMap<UserModel, UserViewModel>();
+            CreateMap<UserModel, EditUserViewModel>();
+            CreateMap<EditUserViewModel, UserModel>();
+            CreateMap<UserModel, DeleteUserViewModel>();
             CreateMap<UserViewModel, UserModel>();
+            CreateMap<RegisterViewModel, UserModel>();
+            CreateMap<CreateUserViewModel, UserModel>();
 
             CreateMap<CreateGoodViewModel, GoodModel>();
             CreateMap<GoodModel, CreateGoodViewModel>();
-
             CreateMap<GoodModel, GoodViewModel>();
         }
     }

@@ -12,9 +12,11 @@ using GoodsAccountingSystem.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using GoodsAccountingSystem.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoodsAccountingSystem.Controllers
 {
+    [Authorize(Roles = Role.ADMIN)]
     public class UsersController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
@@ -31,17 +33,19 @@ namespace GoodsAccountingSystem.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index() {
+        public IActionResult Index()
+        {
             var userList = _userManager.Users.ToList();
             var res = new List<UserViewModel>();
-            foreach(var user in userList)
+            foreach (var user in userList)
             {
                 res.Add(_mapper.Map<UserViewModel>(user));
             }
             return View(res);
         }
 
-        public IActionResult Create(){
+        public IActionResult Create()
+        {
             return PartialView();
         }
 
@@ -51,10 +55,24 @@ namespace GoodsAccountingSystem.Controllers
             if (ModelState.IsValid)
             {
                 var UserModel = _mapper.Map<UserModel>(model);
+                UserModel.UserName = model.Email;
+                UserModel.RegisterDate = DateTime.Now;
                 var result = await _userManager.CreateAsync(UserModel, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(nameof(Index));
+                    if (await _roleManager.RoleExistsAsync(model.UserRole))
+                    {
+                        if (model.UserRole == Role.ADMIN)
+                        {
+                            await _userManager.AddToRoleAsync(UserModel, Role.ADMIN);
+                            await _userManager.UpdateAsync(UserModel);
+                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Указанной роли " + model.UserRole + " не существует");
+                    }
                 }
                 else
                 {
@@ -65,58 +83,106 @@ namespace GoodsAccountingSystem.Controllers
                 }
             }
             var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
-            TempData.Put("CreateErrorModal", partialViewHtml);
+            TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
-            UserModel UserModel = await _userManager.FindByIdAsync(id + "");
+            UserModel UserModel = await _userManager.FindByIdAsync(id);
             if (UserModel == null)
             {
                 return NotFound();
             }
-            var model = _mapper.Map<EditUserByAdminViewModel>(UserModel);
-            return View(model);
+            var model = _mapper.Map<EditUserViewModel>(UserModel);
+            var roles = await _userManager.GetRolesAsync(UserModel);
+            if (roles.Contains(Role.ADMIN))
+            {
+                model.UserRole = Role.ADMIN;
+            }
+            else
+            {
+                model.UserRole = Role.USER;
+            }
+            return PartialView(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserByAdminViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                UserModel UserModel = await _userManager.FindByIdAsync(model.Id + "");
+                UserModel UserModel = await _userManager.FindByIdAsync(model.Id);
                 if (UserModel != null)
                 {
-                    _mapper.Map(model, UserModel);
-                    UserModel.UserName = model.Email;
-
-                    var result = await _userManager.UpdateAsync(UserModel);
-                    if (result.Succeeded)
+                    if (model.Password != null)
                     {
-                        return RedirectToAction("Index");
+                        var newPassword = _userManager.PasswordHasher.HashPassword(UserModel, model.Password);
+                        UserModel.PasswordHash = newPassword;
+                    }
+
+                    if (await _roleManager.RoleExistsAsync(model.UserRole))
+                    {
+                        if (model.UserRole == Role.ADMIN)
+                        {
+                            await _userManager.AddToRoleAsync(UserModel, Role.ADMIN);
+                        }
+                        else
+                        {
+                            await _userManager.RemoveFromRoleAsync(UserModel, Role.ADMIN);
+                        }
+
+                        _mapper.Map(model, UserModel);
+                        UserModel.UserName = model.Email;
+
+                        var result = await _userManager.UpdateAsync(UserModel);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
                     }
                     else
                     {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
+                        ModelState.AddModelError(string.Empty, "Указанной роли " + model.UserRole + " не существует");
                     }
                 }
             }
-            return View(model);
+            var partialViewHtml = await this.RenderViewAsync(nameof(Edit), model, true);
+            TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
+        {
+            var model = await _userManager.FindByIdAsync(id);
+            var delViewModel = _mapper.Map<DeleteUserViewModel>(model);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(delViewModel);
+        }
+
+        [HttpPost, ActionName(nameof(Delete))]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
             UserModel UserModel = await _userManager.FindByIdAsync(id);
             if (UserModel != null)
             {
-                IdentityResult result = await _userManager.DeleteAsync(UserModel);
+                IList<string> AllUserRoles = await _userManager.GetRolesAsync(UserModel);
+                await _userManager.RemoveFromRolesAsync(UserModel, AllUserRoles);
+                await _userManager.DeleteAsync(UserModel);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         //public async Task<IActionResult> ChangePassword(string id)

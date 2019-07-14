@@ -4,6 +4,7 @@ using GoodsAccountingSystem.Models;
 using GoodsAccountingSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace GoodsAccountingSystem.Controllers
@@ -43,6 +44,7 @@ namespace GoodsAccountingSystem.Controllers
             {
                 var user = _mapper.Map<UserModel>(model);
                 user.UserName = model.Email;
+                user.RegisterDate = DateTime.Now;
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

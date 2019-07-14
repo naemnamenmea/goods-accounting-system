@@ -18,6 +18,7 @@ namespace GoodsAccountingSystem.Helpers
 
         public static string MODAL_HOLDER = "modalHolder";
         public static string FORM_TO_SUBMIT_ID = "formToSubmitId";
+        public static string ERROR_MODAL = "ErrorModal";
 
         public static string MODAL_ID = "modalId";
 
@@ -28,5 +29,10 @@ namespace GoodsAccountingSystem.Helpers
                 { EDIT, "put" },
                 { DELETE, "delete" }
             };
+    }
+
+    public static class Role {
+        public const string ADMIN = "admin";
+        public const string USER = "user";
     }
 }

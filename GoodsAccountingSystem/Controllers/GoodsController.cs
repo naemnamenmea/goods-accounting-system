@@ -67,7 +67,7 @@ namespace GoodsAccountingSystem.Controllers
             } else
             {
                 var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
-                TempData.Put("ErrorModal", partialViewHtml);
+                TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -79,12 +79,12 @@ namespace GoodsAccountingSystem.Controllers
                 return NotFound();
             }
 
-            var goodModel = await _context.Goods.FindAsync(id);
-            if (goodModel == null)
+            var model = await _context.Goods.FindAsync(id);
+            if (model == null)
             {
                 return NotFound();
             }
-            return PartialView(goodModel);
+            return PartialView(model);
         }
 
         [HttpPost]
@@ -117,7 +117,7 @@ namespace GoodsAccountingSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var partialViewHtml = await this.RenderViewAsync(nameof(Edit), model, true);
-            TempData.Put("EditErrorModal", partialViewHtml);
+            TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
             return RedirectToAction(nameof(Index));
         }
 
@@ -138,7 +138,7 @@ namespace GoodsAccountingSystem.Controllers
             return PartialView(goodModel);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName(nameof(Delete))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

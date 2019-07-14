@@ -24,7 +24,7 @@
                 @Html.DisplayNameFor(model => model.MiddleName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Roles)
+                @Html.DisplayNameFor(model => model.Role)
             </th>
             <th>
                 <button type="button" class="btn btn-success" onclick="showModal('@Constants.USERS','@Constants.CREATE')"><i class="fas fa-plus"></i></button>
@@ -34,7 +34,7 @@
     <tbody>
         @foreach (var user in Model)
         {
-            <tr onclick="showModal('@Constants.USERS','@Constants.EDIT')">
+            <tr onclick="showModal('@Constants.USERS','@Constants.EDIT','@user.Id')">
                 <td>
                     @Html.DisplayFor(userd => user.Email)
                 </td>
@@ -48,7 +48,7 @@
                     @Html.DisplayFor(userd => user.MiddleName)
                 </td>
                 <td>
-                    @Html.DisplayFor(userd => user.Roles)
+                    @Html.DisplayFor(userd => user.Role)
                 </td>
                 @*<td>
                         <form asp-action="Delete" asp-route-id="@user.Id" method="post">
