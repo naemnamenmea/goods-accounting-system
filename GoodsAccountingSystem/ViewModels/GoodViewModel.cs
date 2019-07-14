@@ -31,7 +31,7 @@ namespace GoodsAccountingSystem.ViewModels
 
     public class CreateGoodViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Укажите название товара")]
         [DisplayName("Название товара")]
         public string Name { get; set; }
         [Required]

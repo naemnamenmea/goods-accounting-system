@@ -79,4 +79,7 @@
     }
 </table>
 
-@{await Html.RenderPartialAsync("FormScripts");}
+<partial name="_FormScripts" />
+@section Scripts {
+    <partial name="_HandleErrorModal" />
+}

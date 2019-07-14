@@ -1,0 +1,15 @@
+﻿@using GoodsAccountingSystem.Helpers;
+
+@{
+    object ErrorModal = TempData["ErrorModal"];
+
+    if (ErrorModal != null)
+    {
+        <script>
+            var content = `@Html.Raw((string)ErrorModal)`;
+            $('#@Constants.MODAL_HOLDER').html(content);
+            console.log($('#@Constants.MODAL_ID'));
+            $('#@Constants.MODAL_ID').modal('show');
+        </script>
+    }
+}

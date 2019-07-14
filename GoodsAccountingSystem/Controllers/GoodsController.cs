@@ -67,8 +67,8 @@ namespace GoodsAccountingSystem.Controllers
             } else
             {
                 var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
-                TempData.Put("CreateErrorModal", partialViewHtml);
-            }            
+                TempData.Put("ErrorModal", partialViewHtml);
+            }
             return RedirectToAction(nameof(Index));
         }
 
