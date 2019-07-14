@@ -33,13 +33,22 @@ namespace GoodsAccountingSystem.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userList = _userManager.Users.ToList();
             var res = new List<UserViewModel>();
             foreach (var user in userList)
             {
-                res.Add(_mapper.Map<UserViewModel>(user));
+                var viewUser = _mapper.Map<UserViewModel>(user);
+                var roles = await _userManager.GetRolesAsync(user);
+                if(roles.Contains(Role.ADMIN))
+                {
+                    viewUser.Role = Role.ADMIN;
+                } else
+                {
+                    viewUser.Role = Role.USER;
+                }
+                res.Add(viewUser);
             }
             return View(res);
         }
