@@ -1,4 +1,4 @@
-﻿@model GoodsAccountingSystem.Models.GoodModel
+﻿@model GoodsAccountingSystem.ViewModels.EditGoodViewModel
 @using GoodsAccountingSystem.Helpers
 
 @{
@@ -14,15 +14,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="Edit" asp-controller="Goods" method="post">
+            <form asp-action="Edit" asp-controller="Goods" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
-                    <div class="form-group">
-                        <label asp-for="CreationDate" class="control-label"></label>
-                        <input asp-for="CreationDate" class="form-control" />
-                        <span asp-validation-for="CreationDate" class="text-danger"></span>
-                    </div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
                         <input asp-for="Name" class="form-control" />
@@ -39,9 +34,9 @@
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Attachment" class="control-label"></label>
-                        <input asp-for="Attachment" class="form-control" />
-                        <span asp-validation-for="Attachment" class="text-danger"></span>
+                        <label asp-for="AttachmentUpload" class="control-label"></label>
+                        <input asp-for="AttachmentUpload" type="file" class="form-control" />
+                        <span asp-validation-for="AttachmentUpload" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -68,7 +68,7 @@ namespace GoodsAccountingSystem
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Users}/{action=Index}/{id?}");
+                    template: "{controller=Goods}/{action=Index}/{id?}");
             });
         }
     }

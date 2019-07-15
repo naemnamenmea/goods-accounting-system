@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using System.IO;
 using GoodsAccountingSystem.Helpers;
 using GoodsAccountingSystem.Models;
 using GoodsAccountingSystem.ViewModels;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,14 +18,17 @@ namespace GoodsAccountingSystem.Controllers
     {
         private readonly DataContext _context;
         private IMapper _mapper;
+        IHostingEnvironment _appEnvironment;
 
         public GoodsController(
             DataContext context,
-            IMapper mapper
+            IMapper mapper,
+            IHostingEnvironment appEnvironment
             )
         {
             _context = context;
             _mapper = mapper;
+            _appEnvironment = appEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -55,16 +60,32 @@ namespace GoodsAccountingSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Price,Description,Attachment")] CreateGoodViewModel model)
+        public async Task<IActionResult> Create([Bind("Name,Price,Description,AttachmentUpload")] CreateGoodViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var newGood = _mapper.Map<GoodModel>(model);
                 newGood.CreationDate = DateTime.Now;
-                newGood.InStock = true;
                 _context.Goods.Add(newGood);
-                await _context.SaveChangesAsync();
-            } else
+                _context.SaveChanges();
+
+                if (model.AttachmentUpload != null)
+                {
+                    string extension = Path.GetExtension(model.AttachmentUpload.FileName);
+                    string path = "/Files/" + newGood.Id + extension;
+                    //var Stream = model.AttachmentUpload.OpenReadStream();
+                    //this.ResizeAndSaveImage(Stream, _appEnvironment.WebRootPath + path);
+
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await model.AttachmentUpload.CopyToAsync(fileStream);
+                    }
+                    newGood.Attachment = path;
+                    _context.SaveChanges();
+                }
+
+            }
+            else
             {
                 var partialViewHtml = await this.RenderViewAsync(nameof(Create), model, true);
                 TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
@@ -84,14 +105,16 @@ namespace GoodsAccountingSystem.Controllers
             {
                 return NotFound();
             }
-            return PartialView(model);
+            var viewModel = _mapper.Map<EditGoodViewModel>(model);
+            return PartialView(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreationDate,Name,Price,Description,Attachment")] GoodModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,AttachmentUpload")] EditGoodViewModel viewModel)
         {
-            if (id != model.Id)
+            var model = _context.Goods.Find(id);
+            if (id != viewModel.Id)
             {
                 return NotFound();
             }
@@ -100,12 +123,13 @@ namespace GoodsAccountingSystem.Controllers
             {
                 try
                 {
+                    model = _mapper.Map<GoodModel>(viewModel);
                     _context.Update(model);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GoodModelExists(model.Id))
+                    if (!GoodModelExists(viewModel.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +138,25 @@ namespace GoodsAccountingSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if (viewModel.AttachmentUpload != null)
+                {
+                    string extension = Path.GetExtension(viewModel.AttachmentUpload.FileName);
+                    string path = "/Files/" + viewModel.Id + extension;                    
+
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await viewModel.AttachmentUpload.CopyToAsync(fileStream);
+                    }
+                    model.Attachment = path;
+                    _context.SaveChanges();
+                }
+            } else
+            {
+                var partialViewHtml = await this.RenderViewAsync(nameof(Edit), viewModel, true);
+                TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
             }
-            var partialViewHtml = await this.RenderViewAsync(nameof(Edit), model, true);
-            TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -142,8 +181,9 @@ namespace GoodsAccountingSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var goodModel = await _context.Goods.FindAsync(id);
-            _context.Goods.Remove(goodModel);
+            var model = await _context.Goods.FindAsync(id);
+            System.IO.File.Delete(_appEnvironment.WebRootPath + model.Attachment);
+            _context.Goods.Remove(model);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

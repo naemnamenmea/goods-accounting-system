@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -38,12 +39,16 @@ namespace GoodsAccountingSystem.ViewModels
         [DataType(DataType.Currency)]
         [DisplayName("Цена")]
         public decimal Price { get; set; }
+        [Required]
         [DisplayName("Описание")]
         public string Description { get; set; }
         [DisplayName("Есть в наличии")]
         public bool InStock { get; set; }
-        [DisplayName("Файл приложение")]
-        public string Attachment { get; set; }
+        [Required]
+        [Display(Name = "Файл приложение")]
+        //[FileExtensions(Extensions = "jpg,jpeg,png,pdf")]
+        [DataType(DataType.Upload)]
+        public IFormFile AttachmentUpload { get; set; }
     }
 
     public class EditGoodViewModel
@@ -60,7 +65,8 @@ namespace GoodsAccountingSystem.ViewModels
         public string Description { get; set; }
         [DisplayName("Есть в наличии")]
         public bool InStock { get; set; }
-        [DisplayName("Файл приложение")]
-        public string Attachment { get; set; }
+        [Display(Name = "Файл приложение")]
+        [DataType(DataType.Upload)]
+        public IFormFile AttachmentUpload { get; set; }
     }
 }

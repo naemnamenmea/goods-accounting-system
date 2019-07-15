@@ -13,7 +13,7 @@ html, body {
 }
 
 .body-content {
-    overflow:auto;
+    overflow: auto;
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 70px;
@@ -25,7 +25,7 @@ html, body {
     height: 70px;
     clear: both;
     padding-top: 20px;
-} 
+}
 
 /* Carousel */
 .carousel-caption p {
@@ -61,7 +61,13 @@ th, td {
 }
 
 /*------------------------------------------------------------*/
-
+.attachment {
+    max-width: 80px;
+    max-height: 80px;
+    height: auto;
+    width: auto;
+}
+/*------------------------------------------------------------*/
 .switch {
     position: relative;
     display: inline-block;
@@ -69,11 +75,11 @@ th, td {
     height: 34px;
 }
 
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
 .slider {
     position: absolute;

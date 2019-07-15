@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -40,6 +44,19 @@ namespace GoodsAccountingSystem.Helpers
                 await viewResult.View.RenderAsync(viewContext);
 
                 return writer.GetStringBuilder().ToString();
+            }
+        }
+        public static void ResizeAndSaveImage(this Controller controller, Stream stream, string filename)
+        {
+            using (Image<Rgba32> image = Image.Load(stream))
+            {
+                var width = 40;
+                var height = width;
+
+                image.Mutate(x => x
+                     .Resize(width, height)
+                 );
+                image.Save(filename); // Automatic encoder selected based on extension.
             }
         }
     }
