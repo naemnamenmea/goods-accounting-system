@@ -23,7 +23,8 @@ namespace GoodsAccountingSystem.Helpers
             CreateMap<CreateUserViewModel, UserModel>();
 
             CreateMap<CreateGoodViewModel, GoodModel>();
-            CreateMap<EditGoodViewModel, GoodModel>();
+            CreateMap<EditGoodViewModel, GoodModel>().ForMember(
+                to => to.Id, from => from.Ignore());
             CreateMap<GoodModel, CreateGoodViewModel>();
             CreateMap<GoodModel, GoodViewModel>();
         }

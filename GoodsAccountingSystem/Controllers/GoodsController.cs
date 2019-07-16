@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
-using System.IO;
 using GoodsAccountingSystem.Helpers;
 using GoodsAccountingSystem.Models;
 using GoodsAccountingSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,12 +54,14 @@ namespace GoodsAccountingSystem.Controllers
             return View(goodModel);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return PartialView();
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Price,Description,AttachmentUpload")] CreateGoodViewModel model)
         {
@@ -73,6 +76,7 @@ namespace GoodsAccountingSystem.Controllers
                 {
                     string extension = Path.GetExtension(model.AttachmentUpload.FileName);
                     string path = "/Files/" + newGood.Id + extension;
+
                     //var Stream = model.AttachmentUpload.OpenReadStream();
                     //this.ResizeAndSaveImage(Stream, _appEnvironment.WebRootPath + path);
 
@@ -80,6 +84,7 @@ namespace GoodsAccountingSystem.Controllers
                     {
                         await model.AttachmentUpload.CopyToAsync(fileStream);
                     }
+
                     newGood.Attachment = path;
                     _context.SaveChanges();
                 }
@@ -93,6 +98,7 @@ namespace GoodsAccountingSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -110,6 +116,7 @@ namespace GoodsAccountingSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,AttachmentUpload")] EditGoodViewModel viewModel)
         {
@@ -123,7 +130,7 @@ namespace GoodsAccountingSystem.Controllers
             {
                 try
                 {
-                    model = _mapper.Map<GoodModel>(viewModel);
+                    _mapper.Map(viewModel, model);
                     _context.Update(model);
                     await _context.SaveChangesAsync();
                 }
@@ -142,8 +149,12 @@ namespace GoodsAccountingSystem.Controllers
                 if (viewModel.AttachmentUpload != null)
                 {
                     string extension = Path.GetExtension(viewModel.AttachmentUpload.FileName);
-                    string path = "/Files/" + viewModel.Id + extension;                    
+                    string path = "/Files/" + viewModel.Id + extension;
 
+                    if (path != model.Attachment)
+                    {
+                        System.IO.File.Delete(_appEnvironment.WebRootPath + model.Attachment);
+                    }
                     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                     {
                         await viewModel.AttachmentUpload.CopyToAsync(fileStream);
@@ -151,7 +162,8 @@ namespace GoodsAccountingSystem.Controllers
                     model.Attachment = path;
                     _context.SaveChanges();
                 }
-            } else
+            }
+            else
             {
                 var partialViewHtml = await this.RenderViewAsync(nameof(Edit), viewModel, true);
                 TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
@@ -160,6 +172,8 @@ namespace GoodsAccountingSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -177,6 +191,7 @@ namespace GoodsAccountingSystem.Controllers
             return PartialView(goodModel);
         }
 
+        [Authorize]
         [HttpPost, ActionName(nameof(Delete))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

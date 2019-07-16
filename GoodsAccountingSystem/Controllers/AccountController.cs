@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using GoodsAccountingSystem.Helpers;
 using GoodsAccountingSystem.Models;
 using GoodsAccountingSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GoodsAccountingSystem.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private IMapper _mapper;
@@ -31,12 +32,14 @@ namespace GoodsAccountingSystem.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -64,6 +67,7 @@ namespace GoodsAccountingSystem.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -71,6 +75,7 @@ namespace GoodsAccountingSystem.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {

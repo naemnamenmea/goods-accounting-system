@@ -1,18 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using GoodsAccountingSystem.Helpers;
+using GoodsAccountingSystem.Models;
+using GoodsAccountingSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GoodsAccountingSystem;
-using GoodsAccountingSystem.Models;
-//using Microsoft.AspNetCore.Identity;
-using GoodsAccountingSystem.ViewModels;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using GoodsAccountingSystem.Helpers;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GoodsAccountingSystem.Controllers
 {
@@ -41,10 +37,11 @@ namespace GoodsAccountingSystem.Controllers
             {
                 var viewUser = _mapper.Map<UserViewModel>(user);
                 var roles = await _userManager.GetRolesAsync(user);
-                if(roles.Contains(Role.ADMIN))
+                if (roles.Contains(Role.ADMIN))
                 {
                     viewUser.Role = Role.ADMIN;
-                } else
+                }
+                else
                 {
                     viewUser.Role = Role.USER;
                 }

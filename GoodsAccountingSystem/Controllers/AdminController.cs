@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GoodsAccountingSystem.Helpers;
+using GoodsAccountingSystem.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GoodsAccountingSystem;
-using GoodsAccountingSystem.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GoodsAccountingSystem.Controllers
 {
+    [Authorize(Roles = Role.ADMIN)]
     public class AdminController : Controller
     {
         UserManager<UserModel> _userManager;
@@ -26,7 +24,6 @@ namespace GoodsAccountingSystem.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _userManager.Users.ToListAsync());
