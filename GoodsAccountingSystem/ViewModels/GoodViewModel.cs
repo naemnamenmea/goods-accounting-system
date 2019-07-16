@@ -43,7 +43,7 @@ namespace GoodsAccountingSystem.ViewModels
         [DisplayName("Описание")]
         public string Description { get; set; }
         [DisplayName("Есть в наличии")]
-        public bool InStock { get; set; }
+        public bool InStock { get; set; } = true;
         [Required]
         [Display(Name = "Файл приложение")]
         //[FileExtensions(Extensions = "jpg,jpeg,png,pdf")]

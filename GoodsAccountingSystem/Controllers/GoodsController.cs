@@ -150,10 +150,11 @@ namespace GoodsAccountingSystem.Controllers
                 {
                     string extension = Path.GetExtension(viewModel.AttachmentUpload.FileName);
                     string path = "/Files/" + viewModel.Id + extension;
+                    string absPath = _appEnvironment.WebRootPath + model.Attachment;
 
-                    if (path != model.Attachment)
+                    if (path != model.Attachment && System.IO.File.Exists(absPath))
                     {
-                        System.IO.File.Delete(_appEnvironment.WebRootPath + model.Attachment);
+                        System.IO.File.Delete(absPath);
                     }
                     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                     {
@@ -197,7 +198,11 @@ namespace GoodsAccountingSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var model = await _context.Goods.FindAsync(id);
-            System.IO.File.Delete(_appEnvironment.WebRootPath + model.Attachment);
+            string absPath = _appEnvironment.WebRootPath + model.Attachment;
+            if(System.IO.File.Exists(absPath))
+            {
+                System.IO.File.Delete(absPath);
+            }
             _context.Goods.Remove(model);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
