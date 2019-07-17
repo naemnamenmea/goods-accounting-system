@@ -129,6 +129,9 @@
     <value>Пустое значение не допустимо</value>
     <comment>ValueMustNotBeNull</comment>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>Пустота</value>
+  </data>
   <data name="The field {0} must be a number." xml:space="preserve">
     <value>Поле {0} должно быть числом.</value>
     <comment>ValueMustBeANumber</comment>

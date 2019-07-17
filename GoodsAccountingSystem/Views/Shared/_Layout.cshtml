@@ -66,8 +66,18 @@
         </div>
     </div>
     <footer class="footer flex-wrap align-content-center">
+        @{
+            string year = DateTime.Now.Year.ToString();
+        }
         <hr />
-        <p class="text-center">&copy; 2119 - GoodsAccountingSystem</p>
+        <div class="row mx-0">
+            <div class="col-sm-6">
+                <p class="text-center">&copy; @year - GoodsAccountingSystem</p>
+            </div>
+            <div class="col-sm-6 text-right">
+                @await Html.PartialAsync("_SelectLanguagePartial")
+            </div>
+        </div>
     </footer>
 
     <environment include="Development">

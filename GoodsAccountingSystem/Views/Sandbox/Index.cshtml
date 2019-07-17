@@ -1,4 +1,10 @@
 ﻿@model IEnumerable<GoodsAccountingSystem.Models.GoodModel>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer _localizer
+
+@{
+    ViewData["Title"] = _localizer["Index page"];
+}
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -6,6 +12,7 @@
 
 <p>'@TempData["test"]'</p>
 <p>'@TempData[""]'</p>
+<p>'@ViewData["Message"]'</p>
 
 <table class="table">
     <thead>

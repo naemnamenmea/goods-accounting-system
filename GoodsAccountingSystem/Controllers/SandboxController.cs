@@ -1,6 +1,7 @@
 ﻿using GoodsAccountingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,10 +9,14 @@ namespace GoodsAccountingSystem.Controllers
 {
     public class SandboxController : Controller
     {
+        private readonly IStringLocalizer<SandboxController> _localizer;
         private readonly DataContext _context;
 
-        public SandboxController(DataContext context)
+        public SandboxController(
+            DataContext context,
+            IStringLocalizer<SandboxController> localizer)
         {
+            _localizer = localizer;
             _context = context;
         }
 
@@ -25,6 +30,7 @@ namespace GoodsAccountingSystem.Controllers
         // GET: Sandbox
         public async Task<IActionResult> Index()
         {
+            ViewData["Message"] = _localizer["localized text"];
             return View(await _context.Goods.ToListAsync());
         }
         // GET: Sandbox/Details/5
