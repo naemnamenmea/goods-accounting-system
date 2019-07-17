@@ -1,6 +1,23 @@
-﻿@{
-   
+﻿@model GoodsAccountingSystem.ViewModels.SettingsViewModel
+@using GoodsAccountingSystem.Helpers
+
+@{
+    ViewBag.Title = "Settings";
 }
 
 
-<h1>Settings</h1>
+<form asp-action="Edit" asp-controller="Goods" method="post" enctype="multipart/form-data">
+    <div class="modal-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>*@
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light border-dark" data-dismiss="modal">Отмена</button>
+        <input type="submit" value="Сохранить" class="btn btn-info" />
+    </div>
+</form>
