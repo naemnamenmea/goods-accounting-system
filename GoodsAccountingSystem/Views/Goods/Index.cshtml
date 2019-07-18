@@ -12,72 +12,26 @@
     @*  *@
 </div>
 
-<table class="table table-bordered table-hover table-edit">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InStock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attachment)
-            </th>
-            <th>
-                <button type="button" class="btn btn-success" onclick="showModal('@Constants.GOODS','@Constants.CREATE')"><i class="fas fa-plus"></i></button>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+@(Html
+        .Grid("_CustomGrid", Model)
+        .Build(columns =>
         {
-            <tr onclick="showModal('@Constants.GOODS','@Constants.EDIT','@item.Id')">
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @if (item.InStock)
-                    {
-                        @: Да
-                    }
-                    else
-                    {
-                        @: Нет
-                    }
-                </td>
-                <td>
-                    <img class="attachment" src="@Url.Content(item.Attachment)">
-                </td>
-                <td onclick="event.stopPropagation()">
-                    <button type="button" class="btn btn-danger" onclick="showModal('@Constants.GOODS','@Constants.DELETE','@item.Id')"><i class="fas fa-trash-alt"></i></button>
-                </td>
-            </tr>
-        }
-    </tbody>
-    @{
-        //var grid = new WebGrid(source: ViewBag.list, canPage: true, rowsPerPage: 1);
-        //grid.Pager(WebGridPagerModes.NextPrevious);
-    }
-</table>
+            columns.Add(model => model.CreationDate).Titled("Name").Formatted("{0:d}");
+            columns.Add(model => model.Name).Titled("Name");
+            columns.Add(model => model.Price).Titled("Name").Formatted("{0:C2}");
+            columns.Add(model => model.Description).Titled("Name");
+            columns.Add(model => model.InStock).Titled("Name");
+            columns.Add(model => model.Attachment).Titled("Name").Sortable(false);
+        })
+        .Empty("No data found")
+        .Pageable(pager =>
+        {
+            pager.PagesToDisplay = 3;
+            pager.RowsPerPage = 5;
+        })
+        .Sortable()
+        .Pageable()
+)
 
 <partial name="_FormScripts" />
 @section Scripts {

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using NonFactors.Mvc.Grid;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
