@@ -117,7 +117,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Дата создания" xml:space="preserve">
-    <value>Creation Date</value>
+  <data name="Activity" xml:space="preserve">
+    <value>Активность</value>
+  </data>
+  <data name="Attachment" xml:space="preserve">
+    <value>Файл приложение</value>
+  </data>
+  <data name="Birth Date" xml:space="preserve">
+    <value>Дата рождения</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="Creation Date" xml:space="preserve">
+    <value>Дата создания</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Электронная почта</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>Есть в наличии</value>
+  </data>
+  <data name="Middle Name" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название товара</value>
+  </data>
+  <data name="New Password" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="Old Password" xml:space="preserve">
+    <value>Старый пароль</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Цена</value>
+  </data>
+  <data name="Register Date" xml:space="preserve">
+    <value>Дата регистрации</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Обязательно</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Роль</value>
+  </data>
+  <data name="Second Name" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="sssssssssssssssssssssssssssssss" xml:space="preserve">
+    <value>ыыыыыыыыыыыыыыыыыыыыыыыыы</value>
+  </data>
+  <data name="The value '{0}' is invalid." xml:space="preserve">
+    <value>Значение '{0}' не верно.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Имя пользователя</value>
   </data>
 </root>

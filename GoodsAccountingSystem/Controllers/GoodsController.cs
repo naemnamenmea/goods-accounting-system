@@ -19,8 +19,8 @@ namespace GoodsAccountingSystem.Controllers
     public class GoodsController : Controller
     {
         private readonly DataContext _context;
-        private IMapper _mapper;
-        IHostingEnvironment _appEnvironment;
+        private readonly IMapper _mapper;
+        readonly IHostingEnvironment _appEnvironment;
 
         public GoodsController(
             DataContext context,

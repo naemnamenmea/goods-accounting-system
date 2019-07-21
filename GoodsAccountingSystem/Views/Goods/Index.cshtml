@@ -16,12 +16,12 @@
         .Grid("_CustomGrid", Model)
         .Build(columns =>
         {
-            columns.Add(model => model.CreationDate).Titled("Name").Formatted("{0:d}");
-            columns.Add(model => model.Name).Titled("Name");
-            columns.Add(model => model.Price).Titled("Name").Formatted("{0:C2}");
-            columns.Add(model => model.Description).Titled("Name");
-            columns.Add(model => model.InStock).Titled("Name");
-            columns.Add(model => model.Attachment).Titled("Name").Sortable(false);
+            columns.Add(model => model.CreationDate).Titled(@Html.DisplayNameFor(model => model.CreationDate)).Formatted("{0:d}");
+            columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
+            columns.Add(model => model.Price).Titled(@Html.DisplayNameFor(model => model.Price)).Formatted("{0:C2}");
+            columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
+            columns.Add(model => model.InStock).Titled(@Html.DisplayNameFor(model => model.InStock));
+            columns.Add(model => model.Attachment).Titled(@Html.DisplayNameFor(model => model.Attachment)).Sortable(false);
         })
         .Empty("No data found")
         .Pageable(pager =>

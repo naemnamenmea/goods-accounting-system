@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GoodsAccountingSystem.Helpers;
+using GoodsAccountingSystem.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using NonFactors.Mvc.Grid;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GoodsAccountingSystem
 {
@@ -77,7 +74,11 @@ namespace GoodsAccountingSystem
                 options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(
                     () => L["The field must be a number."]);
             })
-            .AddDataAnnotationsLocalization()
+            .AddDataAnnotationsLocalization(o =>
+            {
+                o.DataAnnotationLocalizerProvider = (type, factory) =>
+                  factory.Create(typeof(SharedResource));
+            })
             .AddViewLocalization(o => { o.ResourcesPath = "Resources"; })
             .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

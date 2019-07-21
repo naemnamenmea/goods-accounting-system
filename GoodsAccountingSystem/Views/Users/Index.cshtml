@@ -12,11 +12,11 @@
         .Grid("_CustomGrid", Model)
         .Build(columns =>
         {
-            columns.Add(model => model.Email).Titled("Name");
-            columns.Add(model => model.FirstName).Titled("Name");
-            columns.Add(model => model.SecondName).Titled("Name");
-            columns.Add(model => model.MiddleName).Titled("Name");
-            columns.Add(model => model.Role).Titled("Name");
+            columns.Add(model => model.Email).Titled((@Html.DisplayNameFor(model => model.Email)));
+            columns.Add(model => model.FirstName).Titled((@Html.DisplayNameFor(model => model.FirstName)));
+            columns.Add(model => model.SecondName).Titled((@Html.DisplayNameFor(model => model.SecondName)));
+            columns.Add(model => model.MiddleName).Titled((@Html.DisplayNameFor(model => model.MiddleName)));
+            columns.Add(model => model.Role).Titled((@Html.DisplayNameFor(model => model.Role)));
         })
         .Empty("No data found")
         .Pageable(pager =>

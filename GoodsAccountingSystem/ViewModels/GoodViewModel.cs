@@ -11,41 +11,41 @@ namespace GoodsAccountingSystem.ViewModels
     public class GoodViewModel
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [DataType(DataType.Date)]
-        [DisplayName("Дата создания")]
+        [DisplayName("Creation Date")]
         public DateTime CreationDate { get; set; }
-        [Required]
-        [DisplayName("Название товара")]
+        [Required(ErrorMessage = "Required")]
+        [DisplayName("Name")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [DataType(DataType.Currency)]
-        [DisplayName("Цена")]
+        [DisplayName("Price")]
         public decimal Price { get; set; }
-        [DisplayName("Описание")]
+        [DisplayName("Description")]
         public string Description { get; set; }
-        [DisplayName("Есть в наличии")]
+        [DisplayName("In Stock")]
         public bool InStock { get; set; }
-        [DisplayName("Файл приложение")]
+        [DisplayName("Attachment")]
         public string Attachment { get; set; }
     }
 
     public class CreateGoodViewModel
     {
         [Required(ErrorMessage = "Required")]
-        [DisplayName("Название товара")]
+        [DisplayName("Name")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [DataType(DataType.Currency)]
-        [DisplayName("Цена")]
+        [DisplayName("Price")]
         public decimal Price { get; set; }
-        [Required]
-        [DisplayName("Описание")]
+        [Required(ErrorMessage = "Required")]
+        [DisplayName("Description")]
         public string Description { get; set; }
-        [DisplayName("Есть в наличии")]
+        [DisplayName("In Stock")]
         public bool InStock { get; set; } = true;
-        [Required]
-        [Display(Name = "Файл приложение")]
+        [Required(ErrorMessage = "Required")]
+        [DisplayName("Attachment")]
         //[FileExtensions(Extensions = "jpg,jpeg,png,pdf")]
         [DataType(DataType.Upload)]
         public IFormFile AttachmentUpload { get; set; }
@@ -54,18 +54,18 @@ namespace GoodsAccountingSystem.ViewModels
     public class EditGoodViewModel
     {
         public int Id { get; set; }
-        [Required]
-        [DisplayName("Название товара")]
+        [Required(ErrorMessage = "Required")]
+        [DisplayName("Name")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [DataType(DataType.Currency)]
-        [DisplayName("Цена")]
+        [DisplayName("Price")]
         public decimal Price { get; set; }
-        [DisplayName("Описание")]
+        [DisplayName("Description")]
         public string Description { get; set; }
-        [DisplayName("Есть в наличии")]
+        [DisplayName("In Stock")]
         public bool InStock { get; set; }
-        [Display(Name = "Файл приложение")]
+        [Display(Name = "Attachment")]
         [DataType(DataType.Upload)]
         public IFormFile AttachmentUpload { get; set; }
     }
