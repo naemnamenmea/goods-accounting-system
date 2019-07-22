@@ -10,7 +10,7 @@ namespace GoodsAccountingSystem.Helpers
     {
         public static IServiceCollection ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
         {
-            var connectionString = config.GetConnectionString("HomeConnection");
+            var connectionString = config.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(o => o.UseMySql(connectionString));
             return services;
         }

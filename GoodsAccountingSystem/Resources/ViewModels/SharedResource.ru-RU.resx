@@ -141,7 +141,7 @@
   <data name="First Name" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="InStock" xml:space="preserve">
+  <data name="In Stock" xml:space="preserve">
     <value>Есть в наличии</value>
   </data>
   <data name="Middle Name" xml:space="preserve">

@@ -190,7 +190,7 @@ namespace GoodsAccountingSystem.Controllers
                 return NotFound();
             }
 
-            return PartialView(goodModel);
+            return PartialView(_mapper.Map<GoodViewModel>(goodModel));
         }
 
         [Authorize]

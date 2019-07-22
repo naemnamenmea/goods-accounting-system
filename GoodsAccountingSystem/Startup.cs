@@ -79,7 +79,7 @@ namespace GoodsAccountingSystem
                 o.DataAnnotationLocalizerProvider = (type, factory) =>
                   factory.Create(typeof(SharedResource));
             })
-            .AddViewLocalization(o => { o.ResourcesPath = "Resources"; })
+            //.AddViewLocalization(o => { o.ResourcesPath = "Resources"; })
             .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

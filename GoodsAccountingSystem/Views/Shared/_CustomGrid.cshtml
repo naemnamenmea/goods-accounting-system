@@ -10,7 +10,7 @@
 }
 
 <div id="@Model.Id" class="mvc-grid mvc-grid-@(Model.FilterMode.ToString().ToLower())-mode" data-name="@Model.Name" data-filter-mode="@Model.FilterMode" data-source-url="@Model.SourceUrl">
-    <!table@(Model.Attributes)>        
+    <!table@(Model.Attributes)>
         <thead>
             <tr class="mvc-grid-headers@(Model.FilterMode == GridFilterMode.Header ? " mvc-grid-row-filters" : "")">
                 @foreach (IGridColumn column in Model.Columns)
@@ -144,15 +144,26 @@
                     @foreach (IGridColumn column in Model.Columns)
                     {
                         String classes = column.IsHidden ? column.CssClasses + " mvc-grid-hidden" : column.CssClasses;
+                                
+                        @*<script>
+                            console.log(`@Html.Raw(@column.Title).ToString()`);
+                        </script>*@
+                        @*if(@Html.Raw(@column.Title) == "Attachment")
+                        {
+                            <script>
+                                console.log('fdsfs');
+                            </script>
+                        }*@
 
                         <td class="@classes">@column.ValueFor(row)</td>
                     }
                     <td onclick="event.stopPropagation()">
                         <button type="button" class="btn btn-danger" onclick="showModal(`@controllerName`,'@Constants.DELETE','@row.Model.GetType().GetProperty("Id").GetValue(row.Model, null)')">
-                        <i class="fas @(controllerName == Constants.USERS ? "fa-user-times" : "fa-trash-alt")"></i></button>
-</td>
+                            <i class="fas @(controllerName == Constants.USERS ? "fa-user-times" : "fa-trash-alt")"></i>
+                        </button>
+                    </td>
 
-</!tr>
+                </!tr>
             }
             @if (!Model.Rows.Any() && Model.EmptyText != null)
             {
