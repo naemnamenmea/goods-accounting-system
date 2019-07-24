@@ -140,20 +140,13 @@
         <tbody>
             @foreach (IGridRow<Object> row in Model.Rows)
             {
-                <!tr class="@row.CssClasses" @row.Attributes onclick="showModal(`@controllerName`,'@Constants.EDIT','@row.Model.GetType().GetProperty("Id").GetValue(row.Model, null)')">
+                @*<!tr class="@row.CssClasses" @row.Attributes onclick="showModal(`@controllerName`,'@Constants.EDIT','@row.Model.GetType().GetProperty("Id").GetValue(row.Model, null)')">*@
+                <!tr class="@row.CssClasses" @row.Attributes>
                     @foreach (IGridColumn column in Model.Columns)
                     {
                         String classes = column.IsHidden ? column.CssClasses + " mvc-grid-hidden" : column.CssClasses;
-                                
-                        @*<script>
-                            console.log(`@Html.Raw(@column.Title).ToString()`);
-                        </script>*@
-                        @*if(@Html.Raw(@column.Title) == "Attachment")
-                        {
-                            <script>
-                                console.log('fdsfs');
-                            </script>
-                        }*@
+
+
 
                         <td class="@classes">@column.ValueFor(row)</td>
                     }
@@ -164,16 +157,16 @@
                     </td>
 
                 </!tr>
-            }
-            @if (!Model.Rows.Any() && Model.EmptyText != null)
-            {
-                <tr class="mvc-grid-empty-row">
-                    <td colspan="@Model.Columns.Count()">
-                        @Model.EmptyText
-                    </td>
-                </tr>
-            }
-        </tbody>
+                }
+                @if (!Model.Rows.Any() && Model.EmptyText != null)
+                {
+                    <tr class="mvc-grid-empty-row">
+                        <td colspan="@Model.Columns.Count()">
+                            @Model.EmptyText
+                        </td>
+                    </tr>
+                }
+            </tbody>
         @if (Model.FooterPartialViewName != null)
         {
             <tfoot>

@@ -59,11 +59,3 @@ th, td {
     vertical-align: middle !important;
     text-align: center;
 }
-
-/*------------------------------------------------------------*/
-.attachment {
-    max-width: 80px;
-    max-height: 80px;
-    height: auto;
-    width: auto;
-}

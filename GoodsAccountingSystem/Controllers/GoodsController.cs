@@ -176,6 +176,23 @@ namespace GoodsAccountingSystem.Controllers
 
         [Authorize]
         [HttpGet]
+        public async Task<ActionResult> Attachment(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            //var partialViewHtml = await this.RenderViewAsync(nameof(Attachment), null, true);
+            //TempData.Put(Constants.ERROR_MODAL, partialViewHtml);
+
+            TempData.Put(Constants.ERROR_MODAL, "<div>image here. So nice!</div>");
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
