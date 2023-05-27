@@ -10,7 +10,7 @@
 }
 
 <div id="@Model.Id" class="mvc-grid mvc-grid-@(Model.FilterMode.ToString().ToLower())-mode" data-name="@Model.Name" data-filter-mode="@Model.FilterMode" data-source-url="@Model.SourceUrl">
-    <!table@(Model.Attributes)>        
+    <!table@(Model.Attributes)>
         <thead>
             <tr class="mvc-grid-headers@(Model.FilterMode == GridFilterMode.Header ? " mvc-grid-row-filters" : "")">
                 @foreach (IGridColumn column in Model.Columns)
@@ -140,29 +140,33 @@
         <tbody>
             @foreach (IGridRow<Object> row in Model.Rows)
             {
-                <!tr class="@row.CssClasses" @row.Attributes onclick="showModal(`@controllerName`,'@Constants.EDIT','@row.Model.GetType().GetProperty("Id").GetValue(row.Model, null)')">
+                @*<!tr class="@row.CssClasses" @row.Attributes onclick="showModal(`@controllerName`,'@Constants.EDIT','@row.Model.GetType().GetProperty("Id").GetValue(row.Model, null)')">*@
+                <!tr class="@row.CssClasses" @row.Attributes>
                     @foreach (IGridColumn column in Model.Columns)
                     {
                         String classes = column.IsHidden ? column.CssClasses + " mvc-grid-hidden" : column.CssClasses;
+
+
 
                         <td class="@classes">@column.ValueFor(row)</td>
                     }
                     <td onclick="event.stopPropagation()">
                         <button type="button" class="btn btn-danger" onclick="showModal(`@controllerName`,'@Constants.DELETE','@row.Model.GetType().GetProperty("Id").GetValue(row.Model, null)')">
-                        <i class="fas @(controllerName == Constants.USERS ? "fa-user-times" : "fa-trash-alt")"></i></button>
-</td>
-
-</!tr>
-            }
-            @if (!Model.Rows.Any() && Model.EmptyText != null)
-            {
-                <tr class="mvc-grid-empty-row">
-                    <td colspan="@Model.Columns.Count()">
-                        @Model.EmptyText
+                            <i class="fas @(controllerName == Constants.USERS ? "fa-user-times" : "fa-trash-alt")"></i>
+                        </button>
                     </td>
-                </tr>
-            }
-        </tbody>
+
+                </!tr>
+                }
+                @if (!Model.Rows.Any() && Model.EmptyText != null)
+                {
+                    <tr class="mvc-grid-empty-row">
+                        <td colspan="@Model.Columns.Count()">
+                            @Model.EmptyText
+                        </td>
+                    </tr>
+                }
+            </tbody>
         @if (Model.FooterPartialViewName != null)
         {
             <tfoot>

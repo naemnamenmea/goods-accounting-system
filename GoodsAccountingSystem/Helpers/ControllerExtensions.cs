@@ -46,6 +46,7 @@ namespace GoodsAccountingSystem.Helpers
                 return writer.GetStringBuilder().ToString();
             }
         }
+
         public static void ResizeAndSaveImage(this Controller controller, Stream stream, string filename)
         {
             using (Image<Rgba32> image = Image.Load(stream))

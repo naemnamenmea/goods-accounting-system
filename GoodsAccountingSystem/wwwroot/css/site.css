@@ -22,9 +22,9 @@ html, body {
 .footer {
     position: relative;
     margin-top: -70px;
-    height: 70px;
+    /*height: 70px;*/
     clear: both;
-    padding-top: 20px;
+    /*padding-top: 20px;*/
 }
 
 /* Carousel */
@@ -58,12 +58,4 @@ html, body {
 th, td {
     vertical-align: middle !important;
     text-align: center;
-}
-
-/*------------------------------------------------------------*/
-.attachment {
-    max-width: 80px;
-    max-height: 80px;
-    height: auto;
-    width: auto;
 }

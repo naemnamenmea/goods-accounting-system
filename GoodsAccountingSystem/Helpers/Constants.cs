@@ -20,6 +20,8 @@ namespace GoodsAccountingSystem.Helpers
         public static string FORM_TO_SUBMIT_ID = "formToSubmitId";
         public static string ERROR_MODAL = "ErrorModal";
 
+        public static string ATTACHMENT = "Attachment";
+
         public static string MODAL_ID = "modalId";
 
         public static Dictionary<string, string> Method =

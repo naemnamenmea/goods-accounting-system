@@ -2,6 +2,9 @@
 @using GoodsAccountingSystem.Helpers
 @{
     ViewBag.Title = "GoodsList";
+
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var __attachment = "attachment";
 }
 
 <h2>Список товаров</h2>
@@ -13,27 +16,40 @@
 </div>
 
 @(Html
-        .Grid("_CustomGrid", Model)
-        .Build(columns =>
-        {
-            columns.Add(model => model.CreationDate).Titled(@Html.DisplayNameFor(model => model.CreationDate)).Formatted("{0:d}");
-            columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
-            columns.Add(model => model.Price).Titled(@Html.DisplayNameFor(model => model.Price)).Formatted("{0:C2}");
-            columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
-            columns.Add(model => model.InStock).Titled(@Html.DisplayNameFor(model => model.InStock));
-            columns.Add(model => model.Attachment).Titled(@Html.DisplayNameFor(model => model.Attachment)).Sortable(false);
-        })
-        .Empty("No data found")
-        .Pageable(pager =>
-        {
-            pager.PagesToDisplay = 3;
-            pager.RowsPerPage = 5;
-        })
-        .Sortable()
-        .Pageable()
+    .Grid("_CustomGrid", Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Id).Hidden();
+        columns.Add(model => model.CreationDate).Titled(@Html.DisplayNameFor(model => model.CreationDate)).Formatted("{0:d}");
+        columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
+        columns.Add(model => model.Price).Titled(@Html.DisplayNameFor(model => model.Price)).Formatted("{0:C2}");
+        columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
+        columns.Add(model => model.InStock).Titled(@Html.DisplayNameFor(model => model.InStock));
+        columns.Add(model => model.Attachment).Titled(@Html.DisplayNameFor(model => model.Attachment)).Sortable(false).AppendCss(__attachment);
+    })
+    .Empty("No data found")
+    .Pageable(pager =>
+    {
+        pager.PagesToDisplay = 3;
+        pager.RowsPerPage = 5;
+    })
+    .Sortable()
+    .Pageable()
 )
 
 <partial name="_FormScripts" />
 @section Scripts {
+    <script>
+        document.addEventListener('rowclick', function (e) {
+            if (e.detail.originalEvent.target.classList.contains('@__attachment')) {
+                showModal('@controllerName', '@Constants.ATTACHMENT', e.detail.data.id);
+            } else {
+                showModal(`@controllerName`, '@Constants.EDIT', e.detail.data.id);
+                //console.log('data: ', e.detail.data);
+                //console.log('data: ', e.detail.grid);
+                //console.log('original event: ', e.detail.originalEvent);
+            }
+        });
+    </script>
     <partial name="_HandleErrorModal" />
 }
