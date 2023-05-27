@@ -8,7 +8,7 @@ namespace GoodsAccountingSystem.Helpers
     public class RoleInitializer
     {
         public static async Task InitializeAsync(UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager)
-        {            
+        {
             if (await roleManager.FindByNameAsync(Role.ADMIN) == null)
             {
                 await roleManager.CreateAsync(new IdentityRole(Role.ADMIN));
@@ -16,13 +16,14 @@ namespace GoodsAccountingSystem.Helpers
             if (await roleManager.FindByNameAsync(Role.USER) == null)
             {
                 await roleManager.CreateAsync(new IdentityRole(Role.USER));
-            }            
+            }
 
             string adminEmail = "admin@admin.com";
             string password = "tesT321!";
-            if (await userManager.FindByNameAsync(adminEmail) == null)
+            UserModel presentAdmin = await userManager.FindByNameAsync(adminEmail);
+            if (presentAdmin == null)
             {
-                UserModel admin = new UserModel()
+                UserModel newAdmin = new UserModel()
                 {
                     Email = adminEmail,
                     UserName = adminEmail,
@@ -32,10 +33,24 @@ namespace GoodsAccountingSystem.Helpers
                     RegisterDate = DateTime.Now,
                     BirthDate = new DateTime()
                 };
-                IdentityResult result = await userManager.CreateAsync(admin, password);
+                IdentityResult result = await userManager.CreateAsync(newAdmin, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, Role.ADMIN);
+                    await userManager.AddToRoleAsync(newAdmin, Role.ADMIN);
+                }
+            }
+            else
+            {
+                if (!(await userManager.IsInRoleAsync(presentAdmin, Role.ADMIN)))
+                {
+                    IdentityResult res = await userManager.AddToRoleAsync(presentAdmin, Role.ADMIN);
+                    if(res.Succeeded)
+                    {
+
+                    } else
+                    {
+
+                    }
                 }
             }
         }
